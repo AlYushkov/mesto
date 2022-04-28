@@ -1,5 +1,24 @@
 .header {
     position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 45px 200px 0px 200px;
     width: 100%;
     height: auto;
+} 
+@media screen and (max-width: 1024px) {
+    .header {
+        padding: 45px 16% 0px 16%;
+    }
+}
+@media screen and (max-width: 480px) {
+    .header {
+        padding: 28px 27px 0px 27px;
+    }
+}
+@media screen and (max-width: 320px) {
+    .header {
+        padding: 28px 27px 0px 27px;
+    }
 }
