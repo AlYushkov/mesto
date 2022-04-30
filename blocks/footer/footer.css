@@ -7,17 +7,12 @@
     width: 100%;
     height: auto;
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1072px) {
     .footer {
-        padding: 67px 16% 60px 16%;
+        padding: 67px 10% 60px 10%;
     }
 }
-@media screen and (max-width: 480px) {
-    .footer {
-        padding: 48px 19px 36px 19px;
-    }
-}
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 684px) {
     .footer {
         padding: 48px 19px 36px 19px;
     }

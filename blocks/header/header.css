@@ -7,12 +7,12 @@
     width: 100%;
     height: auto;
 } 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1072px) {
     .header {
-        padding: 45px 16% 0px 16%;
+        padding: 45px 10% 0px 10%;
     }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 684px) {
     .header {
         padding: 28px 0px 0px 0px;
     }

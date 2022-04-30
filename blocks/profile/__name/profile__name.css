@@ -1,0 +1,27 @@
+.profile__name {
+    margin: 0;
+    padding: 0;
+    padding-top: 22px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Inter", "Arial", "sans-serif";
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1.1428;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+}
+@media screen and (max-width: 480px) {
+    .profile__name {
+        padding-top: 26px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: "Inter", "Arial", "sans-serif";
+        font-size: 27px;
+        font-weight: 500;
+        line-height: 1.222;
+        letter-spacing: 0em;
+        text-align: center;
+    }
+}
