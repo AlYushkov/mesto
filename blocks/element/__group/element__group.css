@@ -1,0 +1,11 @@
+.element__group {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    top:6px;
+    width:22px;
+    height: 19px;
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+    background-color: transparent;
+}

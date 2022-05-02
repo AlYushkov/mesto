@@ -20,5 +20,14 @@
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/profile/__add-icon/profile__add-icon.css);
 
+@import url(../blocks/elements/elements.css);
+@import url(../blocks/element/element.css);
+@import url(../blocks/element/__mask-group/element__mask-group.css);
+@import url(../blocks/element/__text/element__text.css);
+@import url(../blocks/element/__mesto/element__mesto.css);
+@import url(../blocks/element/__group/element__group.css);
+@import url(../blocks/element/__group-icon/element__group-icon.css);
+@import url(../blocks/element/__group-icon/_active/element__group-icon_active.css);
+
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__text/footer__text.css);
