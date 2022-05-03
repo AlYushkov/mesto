@@ -1,4 +1,4 @@
-.profile__hallmark {
+.profile__title {
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -18,7 +18,7 @@
     grid-column-end: 3;
 }
 @media screen and (max-width: 864px) {
-    .profile__hallmark {
+    .profile__title {
         text-align: center;
     }
 }

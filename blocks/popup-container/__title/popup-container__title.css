@@ -1,0 +1,26 @@
+.popup-container__title {
+    margin: 0;
+    padding: 34px 0px 24px 0px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Inter", "Arial", "sans-serif";
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.2083;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+@media screen and (max-width: 480px) {
+    .popup-container__title {
+        padding: 25px 0px 45px 0px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: "Inter", "Arial", "sans-serif";
+        font-size: 18px;
+        font-weight: 900;
+        line-height: 1.222;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+}

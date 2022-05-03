@@ -1,0 +1,38 @@
+.btn_action_save {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 48px auto 37px auto;
+    padding: 14px auto 18px auto;
+    width: 358px;
+    height:50px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Inter", "Arial", "sans-serif";
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.222;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FFFFFF;
+    background: #000000;
+    border: 0;
+    border-radius: 2px;
+}
+@media screen and (max-width:480px) {
+    .btn_action_save {
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        margin:  45px auto 25px auto;
+        padding: 14px auto; 
+        width: 238px;
+        height: 48px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: "Inter", "Arial", "sans-serif";
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.214;
+        letter-spacing: 0em;
+        text-align: center;
+    }
+}
