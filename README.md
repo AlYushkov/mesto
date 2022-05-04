@@ -1,4 +1,4 @@
-# [Проект 4: Место] (https://alyushkov.github.io/mesto//index.html)
+# Проект 4: Место
 
 ### Обзор
 
