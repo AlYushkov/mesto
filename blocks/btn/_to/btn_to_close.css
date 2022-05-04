@@ -11,7 +11,7 @@
 }
 @media screen and (max-width:680px) {
     .btn_to_close {
-        top: -40x;
+        top: -40px;
         right: 0px;
         width: 32px;
         height: 32px;

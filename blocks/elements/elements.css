@@ -20,8 +20,8 @@
 }
 @media screen and (max-width: 864px) {
     .elements {
-        padding: 51px 16% 0px 16%;   
-        display:-ms-grid;   
+        padding: 51px 16% 0px 16%;
+        display:-ms-grid;
         display:grid;
         -ms-grid-rows: 1fr 20px 1fr 20px 1fr;
         -ms-grid-columns: 1fr 17px 1fr;
