@@ -11,6 +11,14 @@
     letter-spacing: 0em;
     text-align: left;
     color: #FFFFFF;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+@media screen and (max-width: 864px) {
+    .profile__name {
+        text-align: center;
+    }
 }
 @media screen and (max-width: 480px) {
     .profile__name {
@@ -23,5 +31,8 @@
         line-height: 1.222;
         letter-spacing: 0em;
         text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 }

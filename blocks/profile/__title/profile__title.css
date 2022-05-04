@@ -11,6 +11,9 @@
     letter-spacing: 0em;
     text-align: left;
     color: #FFFFFF;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     -ms-grid-column: 1;
     grid-column: 1;
         grid-column-start: 1;
@@ -19,6 +22,9 @@
 }
 @media screen and (max-width: 864px) {
     .profile__title {
-        text-align: center;
+        text-align:center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 }

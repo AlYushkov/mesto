@@ -1,4 +1,4 @@
-.btn_action_close {
+.btn_to_close {
     position: absolute;
     top: -40px;
     right:-40px;
@@ -10,7 +10,7 @@
     border: 0;
 }
 @media screen and (max-width:680px) {
-    .btn_action_close {
+    .btn_to_close {
         top: -40x;
         right: 0px;
         width: 32px;
@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width:480px) {
-    .btn_action_close {
+    .btn_to_close {
         top: -32px;
         right: 0px;
         width: 20px;

@@ -1,4 +1,4 @@
-.btn_action_edit {
+.btn_to_edit {
     margin: 0;
     margin-top: 37px;
     padding: 0;
@@ -8,7 +8,7 @@
     height: 24px;
 }
 @media screen and (max-width: 480px) {
-    .btn_action_edit {
+    .btn_to_edit {
         margin-top: 34px;
         width: 18px;
         height: 18px;

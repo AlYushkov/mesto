@@ -1,4 +1,4 @@
-.btn_action_save {
+.btn_to_save {
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     margin: 48px auto 37px auto;
@@ -19,7 +19,7 @@
     border-radius: 2px;
 }
 @media screen and (max-width:480px) {
-    .btn_action_save {
+    .btn_to_save {
         -webkit-box-sizing: content-box;
         box-sizing: content-box;
         margin:  45px auto 25px auto;

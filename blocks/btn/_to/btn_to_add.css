@@ -1,4 +1,4 @@
-.btn_action_add {
+.btn_to_add {
     margin: 35px 0px 0px 0px;
     padding: 0;
     background-color: black;
@@ -10,7 +10,7 @@
         justify-self:end;
 }
 @media screen and (max-width: 864px) {
-    .btn_action_add {
+    .btn_to_add {
         width: 282px;
         margin: 36px 0px 0px 0px;
         grid-column-start: 2;
@@ -19,7 +19,7 @@
     }
 }
 @media screen and (max-width: 684px) {
-    .btn_action_add {
+    .btn_to_add {
         width: 282px;
         height: 50px;
         grid-column-start: 1;
