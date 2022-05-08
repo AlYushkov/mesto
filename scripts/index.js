@@ -15,8 +15,8 @@ function lockScroll() {
         lockedPadding = (window.innerWidth - document.body.offsetWidth);
         if (lockedPadding > 0) {
             document.body.style.overflowY = "scroll";
-            document.body.style.position = "fixed";
         }
+        document.body.style.position = "fixed";
     }
     else {
         lockedPadding = 0;
