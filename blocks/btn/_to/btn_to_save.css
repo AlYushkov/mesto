@@ -3,7 +3,7 @@
     box-sizing: content-box;
     margin: 48px auto 37px auto;
     padding: 14px auto auto auto;
-    max-width: 354px;
+    width: 354px;
     height:50px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,7 +22,7 @@
     .btn_to_save {
         margin:  45px 0 25px 0;
         padding: auto auto;
-        max-width: 234px;
+        width: 234px;
         height: 48px;
         font-size: 14px;
         font-weight: 400;

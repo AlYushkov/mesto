@@ -3,7 +3,7 @@
     width: 24.5px;
     height: 24.5px;
     background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
-    url(../../../images/Edit-Button.svg) no-repeat center / cover;
+    url(../../../images/Edit-Button.svg) no-repeat center / contain;
     grid-column-start: 2;
     grid-column-end: 3;
 }
