@@ -1,0 +1,9 @@
+.popup-container__input_field_name {
+    padding-top: 54px;
+}
+
+@media screen and (max-width: 320px) {
+    .popup-container__input_field_name {
+        padding-top: 75px;
+    }
+}

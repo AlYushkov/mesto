@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8" />
@@ -11,21 +11,20 @@
 <body class="body">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./images/Logo.svg" alt="Лого">
-            <hr class="devider devider_block_header">
+            <a class="btn header__link" href="#">
+                <img class="header__logo" src="./images/Logo.svg" alt="Лого">
+            </a>
         </header>
         <main class="content">
             <section class="profile">
                 <img class="profile__avatar" src="./images/Cousteau.jpg" alt="Кусто">
                 <div class="profile__profile-info">
-                    <h1 id="hName" class="profile__name">Жак-Ив Кусто</h1>
+                    <h1 class="profile__name">Жак-Ив Кусто</h1>
                     <button class="btn btn_to_edit" type="button">
-                        <img class="btn__icon" src="./images/Edit-Button.svg" alt="Изменить">
                     </button>
-                    <p id="pTitle" class="profile__title">Исследователь океана</p>
+                    <p class="profile__title">Исследователь океана</p>
                 </div>
                 <button class="btn btn_to_add" type="button">
-                    <img class="btn__icon" src="./images/Add-Button.svg" alt="Создать">
                 </button>
             </section>
             <section class="elements" aria-label="блок элементов">
@@ -35,7 +34,6 @@
                     <figcaption class="element__text">
                         <p class="element__mesto">Карачаевск</p>
                         <button class="btn btn_to_check" type="submit">
-                            <img class="btn__icon btn__icon_block_element" src="./images/Group.svg" alt="Группа">
                         </button>
                     </figcaption>
                 </figure>
@@ -45,7 +43,6 @@
                     <figcaption class="element__text">
                         <p class="element__mesto">Гора Эльбрус</p>
                         <button class="btn btn_to_check" type="submit">
-                            <img class="btn__icon btn__icon_block_element" src="./images/Group.svg" alt="Группа">
                         </button>
                     </figcaption>
                 </figure>
@@ -54,7 +51,6 @@
                     <figcaption class="element__text">
                         <p class="element__mesto">Домбай</p>
                         <button class="btn btn_to_check" type="submit">
-                            <img class="btn__icon btn__icon_block_element" src="./images/Group.svg" alt="Группа">
                         </button>
                     </figcaption>
                 </figure>
@@ -64,7 +60,6 @@
                     <figcaption class="element__text">
                         <p class="element__mesto">Гора Эльбрус</p>
                         <button class="btn btn_to_check" type="submit">
-                            <img class="btn__icon btn__icon_block_element" src="./images/Group.svg" alt="Группа">
                         </button>
                     </figcaption>
                 </figure>
@@ -73,7 +68,6 @@
                     <figcaption class="element__text">
                         <p class="element__mesto">Домбай</p>
                         <button class="btn btn_to_check" type="submit">
-                            <img class="btn__icon btn__icon_block_element" src="./images/Group.svg" alt="Группа">
                         </button>
                     </figcaption>
                 </figure>
@@ -83,7 +77,6 @@
                     <figcaption class="element__text">
                         <p class="element__mesto">Карачаево-Черкесия</p>
                         <button class="btn btn_to_check" type="submit">
-                            <img class="btn__icon btn__icon_block_element" src="./images/Group.svg" alt="Группа">
                         </button>
                     </figcaption>
                 </figure>
@@ -95,13 +88,12 @@
         <div class="popup">
             <div class="popup-container">
                 <button type="button" class="btn btn_to_close">
-                    <img class="popup-container__close-icon" src="./images/Close-Button.svg" alt="Закрыть">
                 </button>
                 <h2 class="popup-container__title">Редактировать профиль</h2>
-                <input id="ppName" type="text" class="popup-container__input" placeholder="Имя Фамилия">
-                <hr class="devider devider_block_popup-container">
-                <input id="ppTitle" type="text" class="popup-container__input" placeholder="О себе">
-                <hr class="devider devider_block_popup-container">
+                <input type="text" class="popup-container__input popup-container__input_field_name"
+                    placeholder="Имя Фамилия">
+                <input type="text" class="popup-container__input popup-container__input_field_title"
+                    placeholder="О себе">
                 <button class="btn btn_to_save" type="submit">Сохранить</button>
             </div>
         </div>

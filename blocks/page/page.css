@@ -1,20 +1,7 @@
 .page {
     position: relative;
     margin: 0 auto;
-    padding: 0;
     max-width: 1280px;
     min-width: 320px;
     height: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -ms-flex-line-pack: start;
-        align-content: flex-start;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-family: "Inter", "Arial", "sans-serif";
 }

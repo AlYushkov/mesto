@@ -2,14 +2,13 @@
     position: relative;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    margin: 0;
     padding: 67px 200px 60px 200px;
     width: 100%;
     height: auto;
 }
 @media screen and (max-width: 1072px) {
     .footer {
-        padding: 67px 10% 60px 10%;
+        padding: 67px 16% 60px 16%;
     }
 }
 @media screen and (max-width: 684px) {

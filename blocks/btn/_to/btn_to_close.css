@@ -4,10 +4,8 @@
     right:-40px;
     width: 32px;
     height: 32px;
-    margin: 0;
-    padding: 0;
-    background: rgba(0,0,0,0);
-    border: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+    url(../../../images/Close-Button.svg) no-repeat center / cover;
 }
 @media screen and (max-width:680px) {
     .btn_to_close {
@@ -17,10 +15,9 @@
         height: 32px;
     }
 }
-
 @media screen and (max-width:480px) {
     .btn_to_close {
-        top: -32px;
+        top: -36px;
         right: 0px;
         width: 20px;
         height: 20px;

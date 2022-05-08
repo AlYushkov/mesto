@@ -1,17 +1,20 @@
 .btn_to_add {
-    margin: 35px 0px 0px 0px;
-    padding: 0;
-    background-color: black;
-    border: 2px solid #FFFFFF;
-    border-radius: 2px;
     width: 150px;
     height: 50px;
-    -ms-grid-column-align:end;
-        justify-self:end;
+    border: 2px solid #FFFFFF;
+    border-radius: 2px;;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+    url(../../../images/Add-Button.svg) no-repeat center /contain;
+    align-self: center;
+}
+@media screen and (max-width:1072px) {
+    .btn_to_add {
+        width: 100%;
+    } 
 }
 @media screen and (max-width: 864px) {
     .btn_to_add {
-        width: 282px;
+        max-width: 282px;
         margin: 36px 0px 0px 0px;
         grid-column-start: 2;
         grid-column-end: 3;
@@ -20,10 +23,13 @@
 }
 @media screen and (max-width: 684px) {
     .btn_to_add {
-        width: 282px;
-        height: 50px;
         grid-column-start: 1;
         grid-column-end: 2;
         justify-self: center;
+    }
+}
+@media screen and (max-width: 320px) {
+    .btn_to_add {
+        margin: 34px 0px 0px 0px;
     }
 }

@@ -1,7 +1,6 @@
 .profile__name {
     margin: 0;
-    padding: 0;
-    padding-top: 22px;
+    padding-top: 23px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Inter", "Arial", "sans-serif";
@@ -10,29 +9,30 @@
     line-height: 1.1428;
     letter-spacing: 0em;
     text-align: left;
+    vertical-align: text-top;
     color: #FFFFFF;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    grid-column-start: 1;
+    grid-column-end: 2;
 }
 @media screen and (max-width: 864px) {
     .profile__name {
         text-align: center;
     }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 484px) {
     .profile__name {
-        padding-top: 26px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-family: "Inter", "Arial", "sans-serif";
         font-size: 27px;
         font-weight: 500;
         line-height: 1.222;
         letter-spacing: 0em;
-        text-align: center;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        justify-self: center;
+    }
+}
+@media screen and (max-width: 320px) {
+    .profile__name {
+        justify-self: end;
     }
 }

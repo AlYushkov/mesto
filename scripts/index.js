@@ -1,71 +1,67 @@
 const qs = (selector) => document.querySelector(selector);
-const addBtn = qs(".btn_to_add");
-const closeBtn = qs(".btn_to_close");
-const editBtn = qs(".btn_to_edit");
-const saveBtn = qs(".btn_to_save");
-const popup = qs(".popup");
-const profileName = qs("#hName");
-const profileTitle = qs("#pTitle");
-const _Name = qs("#ppName");
-const namePlaceholder = _Name.placeholder;
-const _Title = qs("#ppTitle");
-const titlePlaceHolder = _Title.placeholder
+const namePlaceholder = qs(".popup-container__input_field_name").placeholder;
+const titlePlaceHolder = qs(".popup-container__input_field_title").placeholder;
+let lockedPadding;
 let bodyStyle = [false, document.body.style.overflowY, document.body.style.position];
-function resetPopupContent() {
-    _Name.value = "";
-    _Name.setAttribute("placeholder", namePlaceholder);
-    _Title.value = "";
-    _Title.setAttribute("placeholder", titlePlaceHolder);
+function clearInput() {
+    qs(".popup-container__input_field_name").value = "";
+    qs(".popup-container__input_field_name").setAttribute("placeholder", namePlaceholder);
+    qs(".popup-container__input_field_title").value = "";
+    qs(".popup-container__input_field_title").setAttribute("placeholder", titlePlaceHolder);
 }
-function scrollControl() {
+function lockScroll() {
     bodyStyle[0] = !bodyStyle[0];
     if (bodyStyle[0]) {
-        document.body.style.position = "fixed";
-        document.body.style.overflowY = "scroll";
+        lockedPadding = (window.innerWidth - document.body.offsetWidth);
+        if (lockedPadding > 0) {
+            document.body.style.overflowY = "scroll";
+            document.body.style.position = "fixed";
+        }
     }
     else {
+        lockedPadding = 0;
         document.body.style.overflowY = bodyStyle[1];
         document.body.style.position = bodyStyle[2];
     }
 }
-_Name.addEventListener("input", function () {
-    _Name.placeholder = "";
+qs(".popup-container__input_field_name").addEventListener("input", function () {
+    qs(".popup-container__input_field_name").placeholder = "";
 });
-_Title.addEventListener("input", function () {
-    _Title.placeholder = "";
+qs(".popup-container__input_field_title").addEventListener("input", function () {
+    qs(".popup-container__input_field_title").placeholder = "";
 });
-popup.addEventListener("click", function (event) {
+qs(".popup").addEventListener("click", function (event) {
     if (event.target == event.currentTarget) {
         {
             event.target.closest('.popup').classList.toggle("popup_active");
         }
-        resetPopupContent();
-        scrollControl();
+        clearInput();
+        lockScroll();
     }
 });
-closeBtn.addEventListener("click", function (event) {
+qs(".btn_to_close").addEventListener("click", function (event) {
     event.target.closest('.popup').classList.toggle("popup_active");
-    resetPopupContent();
-    scrollControl();
+    clearInput();
+    lockScroll();
 });
-addBtn.addEventListener("click", function () {
-    popup.classList.toggle("popup_active");
-    scrollControl();
-});
-
-editBtn.addEventListener("click", function () {
-    _Name.value = profileName.textContent;
-    _Title.value = profileTitle.textContent;
-    popup.classList.toggle("popup_active");
-    scrollControl();
+qs(".btn_to_add").addEventListener("click", function () {
+    qs(".popup").classList.toggle("popup_active");
+    lockScroll();
 });
 
-saveBtn.addEventListener("click", function () {
-    popup.classList.toggle("popup_active");
-    if (_Name != "")
-        profileName.textContent = _Name.value;
-    if (_Title != "")
-        profileTitle.textContent = _Title.value
-    resetPopupContent();
-    scrollControl();
+qs(".btn_to_edit").addEventListener("click", function () {
+    qs(".popup-container__input_field_name").value = qs(".profile__name").textContent;
+    qs(".popup-container__input_field_title").value = qs(".profile__title").textContent;
+    qs(".popup").classList.toggle("popup_active");
+    lockScroll();
+});
+
+qs(".btn_to_save").addEventListener("click", function () {
+    qs(".popup").classList.toggle("popup_active");
+    if (qs(".popup-container__input_field_name") != "")
+        qs(".profile__name").textContent = qs(".popup-container__input_field_name").value;
+    if (qs(".popup-container__input_field_title") != "")
+        qs(".profile__title").textContent = qs(".popup-container__input_field_title").value
+    clearInput();
+    lockScroll();
 });

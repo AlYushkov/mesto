@@ -1,46 +1,35 @@
 .elements {
     position: relative;
-    margin: 0;
     padding: 51px 200px 0px 200px;
-    display: -ms-grid;
+    height: 100%;
     display: grid;
-    -ms-grid-rows: 1fr 20px 1fr;
-    -ms-grid-columns: 1fr 17px 1fr 17px 1fr;
-        grid-template: repeat(2, 1fr) / repeat(3, 1fr);
-    -webkit-column-gap: 17px;
-       -moz-column-gap: 17px;
-            column-gap: 17px;
-    row-gap: 20px;
+    grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+    column-gap: 20px;
+    row-gap: 22px;
 }
 
 @media screen and (max-width:1072px) {
     .elements {
-        padding: 51px 10% 0px 10%;
+        padding: 51px 16% 0px 16%;
     } 
 }
 @media screen and (max-width: 864px) {
     .elements {
         padding: 51px 16% 0px 16%;
-        display:-ms-grid;
         display:grid;
-        -ms-grid-rows: 1fr 20px 1fr 20px 1fr;
-        -ms-grid-columns: 1fr 17px 1fr;
-            grid-template: repeat(3, 1fr) / repeat(2, 1fr);
-        -webkit-column-gap: 17px;
-           -moz-column-gap: 17px;
-                column-gap: 17px;
+        grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+        column-gap: 17px;
         row-gap: 20px;
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 484px) {
     .elements {
+        margin: 0 auto;
         padding: 36px 19px 0px 19px;
-        display:-ms-grid;
-        display:grid;
-        -ms-grid-rows: 1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr;
-        -ms-grid-columns: 1fr;
-            grid-template: repeat(6, 1fr) / 1fr;
-        row-gap: 20px;
+        grid-template: repeat(6, 1fr) / 1fr;
+        column-gap: 0;
+        row-gap: 19px;
+        justify-items: center;
     }
 }
