@@ -12,14 +12,13 @@ function clearInput() {
 function lockScroll() {
     bodyStyle[0] = !bodyStyle[0];
     if (bodyStyle[0]) {
-        lockedPadding = (window.innerWidth - document.body.offsetWidth);
-        if (lockedPadding > 0) {
-            document.body.style.overflowY = "scroll";
-        }
-        document.body.style.position = "fixed";
+        lockedPadding = (window.innerWidth - document.body.offsetWidth) + "px";
+        document.body.style.overflowY = "hidden";
+        document.body.style.paddingRight = lockedPadding;
     }
     else {
-        lockedPadding = 0;
+        lockedPadding = "0px";
+        document.body.style.paddingRight = lockedPadding;
         document.body.style.overflowY = bodyStyle[1];
         document.body.style.position = bodyStyle[2];
     }
