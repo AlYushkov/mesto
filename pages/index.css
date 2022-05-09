@@ -6,6 +6,7 @@
 @import url(../blocks/page/page.css);
 
 @import url(../blocks/btn/btn.css);
+@import url(../blocks/btn/__label/btn__label.css);
 @import url(../blocks/btn/_to/btn_to_add.css);
 @import url(../blocks/btn/_to/btn_to_check.css);
 @import url(../blocks/btn/_to/btn_to_check-active.css);
