@@ -1,6 +1,10 @@
 .profile__name {
     margin: 0;
-    padding-top: 23px;
+    padding-top: 22px;
+    max-width: 294px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Inter", "Arial", "sans-serif";
@@ -24,6 +28,7 @@
 }
 @media screen and (max-width: 484px) {
     .profile__name {
+        max-width: 189px;
         font-size: 27px;
         font-weight: 500;
         line-height: 1.222;

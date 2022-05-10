@@ -1,32 +1,15 @@
 .header {
-    position: relative;
-    -webkit-box-sizing: content-box;
+    margin: 0;
     box-sizing: content-box;
-    margin: 0px 200px 0px 200px;
-    padding-top: 45px;
-    padding-bottom: 37px;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: 1px;
-    border-style: solid;
-    border-color: rgba(84, 84, 84, 0.7);
+    padding: 0px 200px;
 } 
 @media screen and (max-width: 1072px) {
     .header {
-       margin: 0px 16% 0px 16%;
+        padding: 0px 16%;
     }
 }
 @media screen and (max-width: 684px) {
     .header {
-        margin: 0;
-        padding-top: 28px;
-        padding-bottom: 31.6px;
-    }
-}
-@media screen and (max-width: 320px) {
-    .header {
-        padding-top: 28px;
-        padding-bottom: 28px;
+        padding: 0;
     }
 }

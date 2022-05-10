@@ -1,5 +1,9 @@
 .profile__title {
+    position: relative;
     margin: 0;
+    margin-top: -2px;
+    margin-left: -1px;
+    max-width: 336px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Inter", "Arial", "sans-serif";
@@ -26,19 +30,21 @@
 }
 @media screen and (max-width: 484px) {
     .profile__title { 
+        max-width: 282px;
         font-size: 14px;
         font-weight: 400;
         line-height: 1.214;
         grid-column-start: 1;
         grid-column-end: 3;
-        justify-self: center;
     }
 }
 @media screen and (max-width: 320px) {
         .profile__title {
-            justify-self: end;
             margin-right: 17px;
+            padding-left: 19px;
+            justify-self: center;
             grid-column-start: 1;
-            grid-column-end: 2;
+            grid-column-end: 3;
+            justify-self: center;
         }
 }
