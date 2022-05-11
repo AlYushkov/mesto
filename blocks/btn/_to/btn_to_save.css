@@ -1,8 +1,7 @@
 .btn_to_save {
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
-    margin: 48px 0px 37px 0px;
-    padding: 14px auto auto auto;
+    margin: 48px auto 37px auto;
     width: 350px;
     height:50px;
     background: #000000;
@@ -11,8 +10,7 @@
 }
 @media screen and (max-width:480px) {
     .btn_to_save {
-        margin:  45px 0px 25px 0px;
-        padding: auto auto;
+        margin:  45px auto 25px auto;
         width: 230px;
         height: 48px;
     }

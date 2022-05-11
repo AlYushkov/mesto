@@ -4,7 +4,7 @@
     box-sizing: border-box;
     margin: auto auto;
     padding: 0px 36px;
-    max-width: 430px;
+    max-width: 470px;
     background-color: #FFFFFF;
     opacity: 1;
     border:0;
@@ -16,7 +16,7 @@
 }
 @media screen and (max-width: 680px) {
     .popup-container {
-        padding: 0 auto;
+        padding: 0;
     }
 }
 @media screen and (max-width:480px) {

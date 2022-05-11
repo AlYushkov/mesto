@@ -1,5 +1,8 @@
 .header__link {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: flex-start;
     padding: 45px 0px 40px 0px;
     width: 100%;
     border-bottom: 1px solid rgba(84, 84, 84, 0.7);

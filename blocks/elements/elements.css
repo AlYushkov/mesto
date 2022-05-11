@@ -28,7 +28,6 @@
         padding: 36px 19px 0px 19px;
         grid-template: repeat(6, 1fr) / 1fr;
         column-gap: 0;
-        row-gap: 19px;
         justify-items: center;
     }
 }
