@@ -43,20 +43,8 @@ qs(".btn_to_close").addEventListener("click", function (event) {
     clearInput();
     lockScroll();
 });
-qs(".btn_to_add").addEventListener("click", function () {
-    qs(".popup").classList.toggle("popup_active");
-    lockScroll();
-});
-
-qs(".btn_to_edit").addEventListener("click", function () {
-    qs(".popup-container__input_field_name").value = qs(".profile__name").textContent;
-    qs(".popup-container__input_field_title").value = qs(".profile__title").textContent;
-    qs(".popup").classList.toggle("popup_active");
-    lockScroll();
-});
-
-qs(".btn_to_save").addEventListener("click", function () {
-    qs(".popup").classList.toggle("popup_active");
+qs(".btn_to_save").addEventListener("click", function (event) {
+    event.target.closest('.popup').classList.toggle("popup_active");
     if (qs(".popup-container__input_field_name") != "")
         qs(".profile__name").textContent = qs(".popup-container__input_field_name").value;
     if (qs(".popup-container__input_field_title") != "")
@@ -64,3 +52,17 @@ qs(".btn_to_save").addEventListener("click", function () {
     clearInput();
     lockScroll();
 });
+
+
+qs(".btn_to_add").addEventListener("click", function () {
+    qs(".popup").classList.toggle("popup_active");
+    lockScroll();
+});
+qs(".btn_to_edit").addEventListener("click", function () {
+    qs(".popup-container__input_field_name").value = qs(".profile__name").textContent;
+    qs(".popup-container__input_field_title").value = qs(".profile__title").textContent;
+    qs(".popup").classList.toggle("popup_active");
+    lockScroll();
+});
+
+
