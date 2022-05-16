@@ -4,4 +4,5 @@
     border-radius: 10px 10px 0px 0px;
     background: rgba(196,196,196,1.00);
     object-fit: cover;
+    align-self: stretch;
 }

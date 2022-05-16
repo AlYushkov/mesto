@@ -5,6 +5,9 @@
     grid-template: repeat(2, 1fr) / repeat(3, 1fr);
     column-gap: 20px;
     row-gap: 22px;
+    grid-auto-flow: row;
+    justify-self: start;
+    align-items: stretch;
 }
 
 @media screen and (max-width:1072px) {
