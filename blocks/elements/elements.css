@@ -9,11 +9,18 @@
     justify-self: start;
     align-items: stretch;
 }
-
+@media screen and (max-width: 1072px) {
+    .elements {
+        display:grid;
+        grid-template: repeat(3, 280px) / repeat(3, 1fr);
+        column-gap: 20px;
+        row-gap: 22px;
+    }
+}
 @media screen and (max-width: 864px) {
     .elements {
         display:grid;
-        grid-template: repeat(3, 362px) / repeat(2, 1fr);
+        grid-template: repeat(3, 280px) / repeat(2, 1fr);
         column-gap: 17px;
         row-gap: 20px;
     }

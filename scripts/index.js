@@ -176,31 +176,6 @@ qs(".btn_to_edit").addEventListener("click", function () {
     lockScroll();
 });
 
-/*
-
-let likeButtons = document.querySelectorAll(".btn_to_check");
-if (likeButtons.length > 0) {
-    likeButtons.forEach((item) => item.addEventListener("click", function (event) {
-        event.currentTarget.classList.toggle("btn_to_check-active");
-    }));
-}
-let binButtons = document.querySelectorAll(".btn_to_delete");
-if (binButtons.length > 0) {
-    binButtons.forEach((item) => item.addEventListener("click", function (event) {
-        const card = this.closest('.element');
-        card.remove();
-    }));
-}
-
-qs(".element__image").addEventListener("mousedown", function (event) {
-    popupMode = switchPopupMode(false, false, true);
-    const image = event.target.src;
-    const title = event.target.parentElement.lastElementChild.textContent;
-    addPopupImage(image, title)
-    qs(".popup").classList.toggle("popup_active");
-    lockScroll();
-});
-*/
 const initialCards = [
     {
         name: 'Архыз',
