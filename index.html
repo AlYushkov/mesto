@@ -28,11 +28,10 @@
                 </button>
             </section>
             <section class="elements" aria-label="блок элементов">
-                <figure class="element">
+                <!--               <figure class="element">
                     <button class="btn btn_to_delete" type="button">
                     </button>
-                    <img class="element__mask-group" src="./images/kirill-pershin-1088404-unsplash.jpg"
-                        alt="Карачаевск">
+                    <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск">
                     <figcaption class="element__text">
                         <h2 class="element__mesto">Карачаевск</h2>
                         <button class="btn btn_to_check" type="button">
@@ -42,8 +41,7 @@
                 <figure class="element">
                     <button class="btn btn_to_delete" type="button">
                     </button>
-                    <img class="element__mask-group" src="./images/kirill-pershin-1404681-unsplash.jpg"
-                        alt="Гора Эльбрус">
+                    <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус">
                     <figcaption class="element__text">
                         <h2 class="element__mesto">Гора Эльбрус</h2>
                         <button class="btn btn_to_check" type="button">
@@ -53,7 +51,7 @@
                 <figure class="element">
                     <button class="btn btn_to_delete" type="button">
                     </button>
-                    <img class="element__mask-group" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
+                    <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
                     <figcaption class="element__text">
                         <h2 class="element__mesto">Домбай</h2>
                         <button class="btn btn_to_check" type="button">
@@ -63,8 +61,7 @@
                 <figure class="element">
                     <button class="btn btn_to_delete" type="button">
                     </button>
-                    <img class="element__mask-group" src="./images/kirill-pershin-1404681-unsplash.jpg"
-                        alt="Гора Эльбрус">
+                    <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус">
                     <figcaption class="element__text">
                         <h2 class="element__mesto">Гора Эльбрус</h2>
                         <button class="btn btn_to_check" type="button">
@@ -74,7 +71,7 @@
                 <figure class="element">
                     <button class="btn btn_to_delete" type="button">
                     </button>
-                    <img class="element__mask-group" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
+                    <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
                     <figcaption class="element__text">
                         <h2 class="element__mesto">Домбай</h2>
                         <button class="btn btn_to_check" type="button">
@@ -84,7 +81,7 @@
                 <figure class="element">
                     <button class="btn btn_to_delete" type="button">
                     </button>
-                    <img class="element__mask-group" src="./images/kirill-pershin-1088404-unsplash.jpg"
+                    <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg"
                         alt="Карачаево-Черкесия">
                     <figcaption class="element__text">
                         <h2 class="element__mesto">Карачаево-Черкесия</h2>
@@ -92,35 +89,46 @@
                         </button>
                     </figcaption>
                 </figure>
+ -->
             </section>
         </main>
         <footer class="footer">
             <p class="footer__text">&copy; 2020 Mesto Russia</p>
         </footer>
         <div class="popup">
-            <div class="popup-container">
-                <button type="button" class="btn btn_to_close">
-                </button>
-                <h2 class="popup-container__title">Редактировать профиль</h2>
-                <input type="text" class="popup-container__input popup-container__input_field_first"
-                    placeholder="Имя Фамилия">
-                <input type="text" class="popup-container__input popup-container__input_field_second"
-                    placeholder="О себе">
-                <button class="btn btn_to_save" type="submit"><span class="btn__label">Сохранить</span></in>
-            </div>
+
         </div>
     </div>
     <template id="elementTemplate">
         <figure class="element">
             <button class="btn btn_to_delete" type="button">
             </button>
-            <img class="element__mask-group" src="" alt="">
+            <img class="element__image" src="" alt="">
             <figcaption class="element__text">
                 <h2 class="element__mesto"></h2>
                 <button class="btn btn_to_check" type="button">
                 </button>
             </figcaption>
         </figure>
+    </template>
+    <template id="containerTemplate">
+        <div class="popup-container">
+            <button type="button" class="btn btn_to_close">
+            </button>
+            <h2 class="popup-container__title"></h2>
+            <input type="text" class="popup-container__input popup-container__input_field_first" placeholder="">
+            <input type="text" class="popup-container__input popup-container__input_field_second" placeholder="">
+            <button class="btn btn_to_save" type="submit"><span class="btn__label"></span></button>
+        </div>
+    </template>
+    <template id="imageTamplate">
+        <div class="popup-image">
+            <button type="button" class="btn btn_to_close">
+            </button>
+            <img class="popup-image__image" src="" alt="">
+            <h2 class="popup-image__title"></h2>
+        </div>
+
     </template>
     <script src="./scripts/index.js"></script>
 </body>

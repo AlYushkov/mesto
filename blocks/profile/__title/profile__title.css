@@ -22,6 +22,7 @@
 }
 @media screen and (max-width: 864px) {
     .profile__title {
+        margin-bottom: 10px;
         text-align:center;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -40,6 +41,7 @@
 }
 @media screen and (max-width: 320px) {
         .profile__title {
+            margin-bottom: 0;
             margin-right: 17px;
             padding-left: 19px;
             grid-column-start: 1;

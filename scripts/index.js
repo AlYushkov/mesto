@@ -1,9 +1,8 @@
 const qs = (selector) => document.querySelector(selector);
-const inputFirstPlaceholder = qs(".popup-container__input_field_first").placeholder;
-const inputSecondPlaceholder = qs(".popup-container__input_field_second").placeholder;
-const popupTitle = qs(".popup-container__title").textContent;
-const buttonLabel = qs(".btn__label").textContent;
-const userTemplate = document.querySelector('#popupContainer');
+const inputFirstPlaceholder = "";
+const inputSecondPlaceholder = "";
+const popupTitle = "";
+const buttonLabel = "";
 let popupMode = 0;
 let lockedPadding;
 let bodyStyle = [false, document.body.style.overflowY, document.body.style.position];
@@ -19,14 +18,6 @@ function switchPopupMode(isEditProfile, isAddPlace, isWatchImage) {
         return 3;
     }
     return 0;
-}
-function clearInput() {
-    qs(".popup-container__input_field_first").value = "";
-    qs(".popup-container__input_field_first").setAttribute("placeholder", inputFirstPlaceholder);
-    qs(".popup-container__input_field_second").value = "";
-    qs(".popup-container__input_field_second").setAttribute("placeholder", inputSecondPlaceholder);
-    qs(".popup-container__title").textContent = popupTitle;
-    qs(".btn__label").textContent = buttonLabel;
 }
 function lockScroll() {
     bodyStyle[0] = !bodyStyle[0];
@@ -46,9 +37,10 @@ function addPlace(place, image) {
     const elements = qs(".elements");
     const elementTemplate = qs("#elementTemplate").content;
     const element = elementTemplate.querySelector('.element').cloneNode(true);
-    element.querySelector(".element__mask-group").src = image;
-    element.querySelector(".element__mask-group").alt = place;
+    element.querySelector(".element__image").src = image;
+    element.querySelector(".element__image").alt = place;
     element.querySelector(".element__mesto").textContent = place;
+    elements.prepend(element);
     element.querySelector(".btn_to_delete").addEventListener("click", function (event) {
         const card = this.closest('.element');
         card.remove();
@@ -56,116 +48,186 @@ function addPlace(place, image) {
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
         event.currentTarget.classList.toggle("btn_to_check-active");
     });
-    elements.prepend(element);
-    window.addEventListener("load", event => {
-        var image = new Image();
-        image.src = image;
-        image.addEventListener('error', () => {
-            element.querySelector(".btn_to_delete").style.background = "black";
-
-        });
-    });
-    /* let elements = document.querySelectorAll(".element");
-     let cards = [];
-     cards.push([image, place, false]);
-     elements.forEach((item) => {
-         cards.push([(item.querySelector(".element__mask-group").src), (item.querySelector(".element__mesto").textContent),
-         (item.querySelector(".btn_to_check-active") != null)]);
-     });
-     */
-};
-qs(".popup-container__input_field_first").addEventListener("input", function () {
-    qs(".popup-container__input_field_first").placeholder = "";
-});
-qs(".popup-container__input_field_second").addEventListener("input", function () {
-    qs(".popup-container__input_field_second").placeholder = "";
-});
-
-qs(".popup").addEventListener("click", function (event) {
-    if (event.target == event.currentTarget) {
-        {
-            popupMode = switchPopupMode(false, false, false);
-            event.target.closest('.popup').classList.toggle("popup_active");
-        }
-        clearInput();
+    qs(".element__image").addEventListener("mousedown", function (event) {
+        popupMode = switchPopupMode(false, false, true);
+        const image = event.target.src;
+        const title = event.target.parentElement.lastElementChild.textContent;
+        addPopupImage(image, title)
+        qs(".popup").classList.toggle("popup_active");
         lockScroll();
+    });
+};
+function addPopupImage(image, title) {
+    const popup = qs(".popup");
+    const imageTamplate = qs("#imageTamplate").content;
+    const popupImage = imageTamplate.querySelector(".popup-image").cloneNode(true);
+    popup.append(popupImage);
+    function clearImage() {
+        popupImage.remove();
     }
-});
-qs(".btn_to_close").addEventListener("click", function (event) {
-    popupMode = switchPopupMode(false, false, false);
-    event.target.closest('.popup').classList.toggle("popup_active");
-    clearInput();
-    lockScroll();
-});
-qs(".btn_to_save").addEventListener("click", function (event) {
-    function isNullOrWhiteSpace(str) {
-        return (!str || str.length === 0 || /^\s*$/.test(str))
-    };
+    qs(".popup-image__image").src = image;
+    qs(".popup-image__image").alt = title;
+    qs(".popup-image__title").textContent = title;
+    qs(".popup").addEventListener("click", function (event) {
+        if (event.target == event.currentTarget) {
+            {
+                popupMode = switchPopupMode(false, false, false);
+                this.classList.remove("popup_active");
+            }
+            clearImage();
+            lockScroll();
+        }
+    });
+    qs(".btn_to_close").addEventListener("click", function (event) {
+        popupMode = switchPopupMode(false, false, false);
+        event.target.closest('.popup').classList.toggle("popup_active");
+        clearImage();
+        lockScroll();
+    });
+
+}
+function addPopupContent() {
+    const popup = qs(".popup");
+    const containerTemplate = qs("#containerTemplate").content;
+    const popupContainer = containerTemplate.querySelector(".popup-container").cloneNode(true);
+    popup.append(popupContainer);
+    function clearInput() {
+        popupContainer.remove();
+    }
     if (popupMode === 1) {
-        if (!isNullOrWhiteSpace(qs(".popup-container__input_field_first").value))
-            qs(".profile__name").textContent = qs(".popup-container__input_field_first").value;
-        else {
-            qs(".popup-container__input_field_first").placeholder = "Напишите имя, фамилию";
-            return;
-        }
-        if (!isNullOrWhiteSpace(qs(".popup-container__input_field_second").value))
-            qs(".profile__title").textContent = qs(".popup-container__input_field_second").value;
-        else {
-            qs(".popup-container__input_field_second").placeholder = "Напишите о себе";
-            return;
-        }
+        qs(".popup-container__title").textContent = "Редактировать профиль";
+        qs(".btn__label").textContent = "Сохранить";
+        qs(".popup-container__input_field_first").value = qs(".profile__name").textContent;
+        qs(".popup-container__input_field_second").value = qs(".profile__title").textContent;
     }
     else if (popupMode === 2) {
-        if (isNullOrWhiteSpace(qs(".popup-container__input_field_first").value)) {
-            qs(".popup-container__input_field_first").placeholder = "Укажите место";
-            return;
-        }
-        if (isNullOrWhiteSpace(qs(".popup-container__input_field_second").value)) {
-            qs(".popup-container__input_field_second").placeholder = "Укажите ссылку на картинку";
-            return;
-        }
-        addPlace(qs(".popup-container__input_field_first").value, qs(".popup-container__input_field_second").value);
+        qs(".popup-container__input_field_first").setAttribute("placeholder", "Название");
+        qs(".popup-container__input_field_second").setAttribute("placeholder", "Ссылка на картинку");
+        qs(".popup-container__title").textContent = "Новое место";
+        qs(".btn__label").textContent = "Создать";
     }
-    event.target.closest('.popup').classList.toggle("popup_active");
-    clearInput();
-    lockScroll();
-});
 
-
+    qs(".popup-container__input_field_first").addEventListener("input", function () {
+        qs(".popup-container__input_field_first").placeholder = "";
+    });
+    qs(".popup-container__input_field_second").addEventListener("input", function () {
+        qs(".popup-container__input_field_second").placeholder = "";
+    });
+    qs(".popup").addEventListener("click", function (event) {
+        if (event.target == event.currentTarget) {
+            {
+                popupMode = switchPopupMode(false, false, false);
+                this.classList.remove("popup_active");
+            }
+            clearInput();
+            lockScroll();
+        }
+    });
+    qs(".btn_to_close").addEventListener("click", function (event) {
+        popupMode = switchPopupMode(false, false, false);
+        event.target.closest('.popup').classList.toggle("popup_active");
+        clearInput();
+        lockScroll();
+    });
+    qs(".btn_to_save").addEventListener("click", function (event) {
+        function isNullOrWhiteSpace(str) {
+            return (!str || (str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')).length === 0)
+        };
+        if (popupMode === 1) {
+            if (!isNullOrWhiteSpace(qs(".popup-container__input_field_first").value))
+                qs(".profile__name").textContent = qs(".popup-container__input_field_first").value;
+            else {
+                qs(".popup-container__input_field_first").placeholder = "Напишите имя, фамилию";
+                return;
+            }
+            if (!isNullOrWhiteSpace(qs(".popup-container__input_field_second").value))
+                qs(".profile__title").textContent = qs(".popup-container__input_field_second").value;
+            else {
+                qs(".popup-container__input_field_second").placeholder = "Напишите о себе";
+                return;
+            }
+        }
+        else if (popupMode === 2) {
+            if (isNullOrWhiteSpace(qs(".popup-container__input_field_first").value)) {
+                qs(".popup-container__input_field_first").placeholder = "Укажите место";
+                return;
+            }
+            if (isNullOrWhiteSpace(qs(".popup-container__input_field_second").value)) {
+                qs(".popup-container__input_field_second").placeholder = "Укажите ссылку на каритнку";
+                return;
+            }
+            addPlace(qs(".popup-container__input_field_first").value, qs(".popup-container__input_field_second").value);
+        }
+        event.target.closest('.popup').classList.toggle("popup_active");
+        clearInput();
+        lockScroll();
+    });
+};
 qs(".btn_to_add").addEventListener("click", function () {
     popupMode = switchPopupMode(false, true, false);
-    qs(".popup-container__input_field_first").setAttribute("placeholder", "Название");
-    qs(".popup-container__input_field_second").setAttribute("placeholder", "Ссылка на картинку");
-    qs(".popup-container__title").textContent = "Новое место";
-    qs(".btn__label").textContent = "Создать";
+    addPopupContent();
     qs(".popup").classList.toggle("popup_active");
     lockScroll();
 });
 qs(".btn_to_edit").addEventListener("click", function () {
     popupMode = switchPopupMode(true, false, false);
-    qs(".popup-container__input_field_first").value = qs(".profile__name").textContent;
-    qs(".popup-container__input_field_second").value = qs(".profile__title").textContent;
+    addPopupContent();
     qs(".popup").classList.toggle("popup_active");
     lockScroll();
 });
+
+/*
+
 let likeButtons = document.querySelectorAll(".btn_to_check");
 if (likeButtons.length > 0) {
-    document.querySelectorAll(".btn_to_check").forEach((item) => item.addEventListener("click", function (event) {
+    likeButtons.forEach((item) => item.addEventListener("click", function (event) {
         event.currentTarget.classList.toggle("btn_to_check-active");
     }));
 }
 let binButtons = document.querySelectorAll(".btn_to_delete");
 if (binButtons.length > 0) {
-    document.querySelectorAll(".btn_to_delete").forEach((item) => item.addEventListener("click", function (event) {
+    binButtons.forEach((item) => item.addEventListener("click", function (event) {
         const card = this.closest('.element');
         card.remove();
     }));
 }
-/*
-qs(".btn_to_watch-image").addEventListener("click", function () {
+
+qs(".element__image").addEventListener("mousedown", function (event) {
     popupMode = switchPopupMode(false, false, true);
+    const image = event.target.src;
+    const title = event.target.parentElement.lastElementChild.textContent;
+    addPopupImage(image, title)
+    qs(".popup").classList.toggle("popup_active");
+    lockScroll();
 });
 */
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
+initialCards.forEach((item) => addPlace(item.name, item.link));
 
 
 

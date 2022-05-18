@@ -8,6 +8,7 @@
     justify-items: start;
     align-items: start;
 }
+
 @media screen and (max-width:320px) {
     .profile__profile-info {
         width: 100%;
