@@ -1,0 +1,5 @@
+.element__img-wrapper {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
