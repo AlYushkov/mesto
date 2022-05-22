@@ -1,9 +1,24 @@
 const qs = (selector) => document.querySelector(selector);
-let lockedPadding;
-let currentPopup;
+const profileName = qs(".profile__name");
+const profileTitle = qs(".profile__title");
+const profileEditBtn = qs(".btn_to_edit");
+const placeAddBtn = qs(".btn_to_add");
+const popupProfile = qs("#popupProfile");
+const nameInput = popupProfile.querySelector(".popup-container__input_field_first");
+const titleInput = popupProfile.querySelector(".popup-container__input_field_second");
+const profileSaveBtn = popupProfile.querySelector('button[type="submit"]');
+const popupPlace = qs("#popupPlace");
+const placeNameInput = popupPlace.querySelector(".popup-container__input_field_first")
+const placeImageInput = popupPlace.querySelector(".popup-container__input_field_second");
+const placeSaveBtn = popupPlace.querySelector('button[type="submit"]');
+const popupImage = qs("#popupImage");
+const popupImageImg = popupImage.querySelector(".popup-image__image");
+const popupImageTitle = qs(".popup-image__title");
 const bodyStyle = [false, document.body.style.overflowY, document.body.style.position];
 const elements = qs(".elements");
 const elementTemplate = qs("#elementTemplate").content;
+let lockedPadding;
+
 function lockScroll() {
     bodyStyle[0] = !bodyStyle[0];
     if (bodyStyle[0]) {
@@ -18,11 +33,26 @@ function lockScroll() {
         document.body.style.position = bodyStyle[2];
     }
 }
+profileEditBtn.addEventListener("click", function () {
+    popupProfile.classList.toggle("popup_active");
+    nameInput.value = profileName.textContent;
+    titleInput.value = profileTitle.textContent;
+    lockScroll();
+});
+
+placeAddBtn.addEventListener("click", function () {
+    popupPlace.classList.toggle("popup_active");
+    placeNameInput.value = "";
+    placeImageInput.value = "";
+    lockScroll();
+});
+
 const closeButtons = document.querySelectorAll(".btn_to_close");
 closeButtons.forEach((button) => button.addEventListener("click", function (event) {
     event.target.closest('.popup').classList.toggle("popup_active");
     lockScroll();
 }));
+
 const popups = document.querySelectorAll(".popup");
 popups.forEach((popup) => popup.addEventListener("click", function (event) {
     if (event.target == event.currentTarget) {
@@ -36,110 +66,96 @@ popups.forEach((popup) => popup.addEventListener("click", function (event) {
 function isNullOrWhiteSpace(str) {
     return (!str || (str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')).length === 0)
 };
+
 function saveProfile() {
-    const name = currentPopup.querySelector(".popup-container__input_field_first");
-    const title = currentPopup.querySelector(".popup-container__input_field_second");
-    if (!isNullOrWhiteSpace(name.value)) {
-        qs(".profile__name").textContent = name.value;
-        name.placeholder = "Имя, фамилия";
+    const nameIsValid = !isNullOrWhiteSpace(nameInput.value);
+    const titleIsValid = !isNullOrWhiteSpace(titleInput.value);
+    const res = nameIsValid && titleIsValid;
+    if (res) {
+        profileName.textContent = nameInput.value;
+        profileTitle.textContent = titleInput.value;
     }
-    else {
-        name.value = null;
-        name.placeholder = "Укажите имя, фамилию";
-        return null;
-    }
-    if (!isNullOrWhiteSpace(title.value)) {
-        qs(".profile__title").textContent = title.value;
-        title.placeholder = "О себе";
-    }
-    else {
-        title.value = null;
-        title.placeholder = "Напишите о себе";
-        return null;
-    }
-    return name;
+    return res;
 }
-function addPlace(place, image) {
+
+profileSaveBtn.addEventListener("click", function (event) {
+    const profileIsValid = saveProfile();
+    if (profileIsValid) {
+        event.target.closest('.popup').classList.toggle("popup_active");
+        lockScroll();
+    }
+})
+
+function addPlace(name, link) {
+    const placeIsValid = !isNullOrWhiteSpace(placeNameInput.value);
+    const imageIsValid = !isNullOrWhiteSpace(placeImageInput.value);
+    const res = placeIsValid && imageIsValid;
+    if (!res) {
+        return null;
+    }
     const element = elementTemplate.querySelector('.element').cloneNode(true);
-    const img = element.querySelector(".element__image");
-    img.src = image;
-    img.alt = place;
-    element.querySelector(".element__mesto").textContent = place;
-    return element;
-}
-function createCard() {
-    const placeName = currentPopup.querySelector(".popup-container__input_field_first");
-    const imageSrc = currentPopup.querySelector(".popup-container__input_field_second");
-    if (isNullOrWhiteSpace(placeName.value)) {
-        placeName.value = null;
-        placeName.placeholder = "Укажите место";
-        return null;
-    }
-    if (isNullOrWhiteSpace(imageSrc.value)) {
-        imageSrc.value = null;
-        imageSrc.placeholder = "Укажите ссылку на каритнку";
-        return null;
-    }
-    placeName.placeholder = "Название";
-    imageSrc.placeholder = "Ссылка на картинку";
-    return addPlace(placeName.value, imageSrc.value);
-}
-function displayCard(element) {
-    elements.prepend(element);
+    const elementImg = element.querySelector(".element__image");
+    const elementMesto = element.querySelector(".element__mesto");
+    elementImg.src = link;
+    elementImg.alt = name;
+    elementMesto.textContent = name;
     element.querySelector(".btn_to_delete").addEventListener("click", function (event) {
         const card = this.closest('.element');
         card.remove();
     });
+    elementImg.addEventListener("mousedown", function (event) {
+        const imgObj = event.target;
+        const image = imgObj.src
+        const title = imgObj.alt;
+        watchImage(image, title);
+        popupImage.classList.toggle("popup_active");
+        lockScroll();
+    });
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
         event.currentTarget.classList.toggle("btn_to_check-active");
     });
-    qs(".element__image").addEventListener("mousedown", function (event) {
-        const image = event.target.src;
-        const title = event.target.parentElement.lastElementChild.textContent;
-        watchImage(image, title);
-        qs("#popupImage").classList.toggle("popup_active");
-        lockScroll();
-    });
-    return true;
-}
-function watchImage(image, title) {
-    qs(".popup-image__image").src = image;
-    qs(".popup-image__image").alt = title;
-    qs(".popup-image__title").textContent = title;
-}
-function saveData(popupId) {
-    if (popupId === "popupProfile") {
-        return saveProfile();
-    }
-    else if (popupId === "popupPlace") {
-        return displayCard(createCard());
-    }
+    return element;
 }
 
-const submitButtons = document.querySelectorAll('button[type="submit"]');
-
-submitButtons.forEach((button) => button.addEventListener("click", function (event) {
-
-    if (saveData(event.currentTarget.parentElement.parentElement.id)) {
+placeSaveBtn.addEventListener("click", function (event) {
+    const element = addPlace(placeNameInput.value, placeImageInput.value);
+    if (element) {
+        elements.prepend(element);
         event.target.closest('.popup').classList.toggle("popup_active");
         lockScroll();
     }
-}));
+})
 
-qs(".btn_to_edit").addEventListener("click", function () {
-    currentPopup = qs("#popupProfile");
-    currentPopup.classList.toggle("popup_active");
-    currentPopup.querySelector(".popup-container__input_field_first").value = qs(".profile__name").textContent;
-    currentPopup.querySelector(".popup-container__input_field_second").value = qs(".profile__title").textContent;
-    lockScroll();
-});
-qs(".btn_to_add").addEventListener("click", function () {
-    currentPopup = qs("#popupPlace");
-    currentPopup.classList.toggle("popup_active");
-    currentPopup.querySelector(".popup-container__input_field_first").value = "";
-    currentPopup.querySelector(".popup-container__input_field_second").value = "";
-    lockScroll();
-});
+function watchImage(image, title) {
+    popupImageImg.src = image;
+    popupImageImg.alt = title;
+    popupImageTitle.textContent = title;
+}
+
+function displayCard(name, link) {
+    const element = elementTemplate.querySelector('.element').cloneNode(true);
+    const elementImg = element.querySelector(".element__image");
+    const elementMesto = element.querySelector(".element__mesto");
+    elementImg.src = link;
+    elementImg.alt = name;
+    elementMesto.textContent = name;
+    element.querySelector(".btn_to_delete").addEventListener("click", function (event) {
+        const card = this.closest('.element');
+        card.remove();
+    });
+    elementImg.addEventListener("mousedown", function (event) {
+        const imgObj = event.target;
+        const image = imgObj.src
+        const title = imgObj.alt;
+        watchImage(image, title);
+        popupImage.classList.toggle("popup_active");
+        lockScroll();
+    });
+    element.querySelector(".btn_to_check").addEventListener("click", function (event) {
+        event.currentTarget.classList.toggle("btn_to_check-active");
+    });
+    elements.prepend(element);
+}
 
 function initCards() {
     const initialCards = [
@@ -168,8 +184,9 @@ function initCards() {
             link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
         }
     ];
-    initialCards.forEach((item) => displayCard(addPlace(item.name, item.link)));
+    initialCards.forEach((item) => displayCard(item.name, item.link));
 }
+
 initCards();
 
 
