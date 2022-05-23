@@ -33,15 +33,21 @@ function lockScroll() {
         document.body.style.position = bodyStyle[2];
     }
 }
+function openPopup(popupObj) {
+    popupObj.classList.add("popup_active");
+}
+function closePopup(popupObj) {
+    popupObj.classList.remove("popup_active")
+}
 profileEditBtn.addEventListener("click", function () {
-    popupProfile.classList.toggle("popup_active");
+    openPopup(popupProfile);
     nameInput.value = profileName.textContent;
     titleInput.value = profileTitle.textContent;
     lockScroll();
 });
 
 placeAddBtn.addEventListener("click", function () {
-    popupPlace.classList.toggle("popup_active");
+    openPopup(popupPlace);
     placeNameInput.value = "";
     placeImageInput.value = "";
     lockScroll();
@@ -49,7 +55,7 @@ placeAddBtn.addEventListener("click", function () {
 
 const closeButtons = document.querySelectorAll(".btn_to_close");
 closeButtons.forEach((button) => button.addEventListener("click", function (event) {
-    event.target.closest('.popup').classList.toggle("popup_active");
+    closePopup(event.target.closest('.popup'));
     lockScroll();
 }));
 
@@ -57,12 +63,11 @@ const popups = document.querySelectorAll(".popup");
 popups.forEach((popup) => popup.addEventListener("click", function (event) {
     if (event.target == event.currentTarget) {
         {
-            this.classList.remove("popup_active");
+            closePopup(this);
         }
         lockScroll();
     }
 }));
-
 function isNullOrWhiteSpace(str) {
     return (!str || (str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')).length === 0)
 };
@@ -81,7 +86,7 @@ function saveProfile() {
 profileSaveBtn.addEventListener("click", function (event) {
     const profileIsValid = saveProfile();
     if (profileIsValid) {
-        event.target.closest('.popup').classList.toggle("popup_active");
+        closePopup(event.target.closest('.popup'));
         lockScroll();
     }
 })
@@ -108,7 +113,7 @@ function addPlace(name, link) {
         const image = imgObj.src
         const title = imgObj.alt;
         watchImage(image, title);
-        popupImage.classList.toggle("popup_active");
+        openPopup(popupImage);
         lockScroll();
     });
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
@@ -121,7 +126,7 @@ placeSaveBtn.addEventListener("click", function (event) {
     const element = addPlace(placeNameInput.value, placeImageInput.value);
     if (element) {
         elements.prepend(element);
-        event.target.closest('.popup').classList.toggle("popup_active");
+        closePopup(event.target.closest('.popup'));
         lockScroll();
     }
 })
@@ -148,7 +153,7 @@ function displayCard(name, link) {
         const image = imgObj.src
         const title = imgObj.alt;
         watchImage(image, title);
-        popupImage.classList.toggle("popup_active");
+        openPopup(popupImage)
         lockScroll();
     });
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
