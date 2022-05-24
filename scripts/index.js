@@ -4,12 +4,12 @@ const profileTitle = qs(".profile__title");
 const profileEditBtn = qs(".btn_to_edit");
 const placeAddBtn = qs(".btn_to_add");
 const popupProfile = qs("#popupProfile");
-const nameInput = popupProfile.querySelector(".popup-container__input_field_first");
-const titleInput = popupProfile.querySelector(".popup-container__input_field_second");
+const nameInput = popupProfile.querySelector(".fieldset__input_field_first");
+const titleInput = popupProfile.querySelector(".fieldset__input_field_second");
 const profileSaveBtn = popupProfile.querySelector('button[type="submit"]');
 const popupPlace = qs("#popupPlace");
-const placeNameInput = popupPlace.querySelector(".popup-container__input_field_first")
-const placeImageInput = popupPlace.querySelector(".popup-container__input_field_second");
+const placeNameInput = popupPlace.querySelector(".fieldset__input_field_first")
+const placeImageInput = popupPlace.querySelector(".fieldset__input_field_second");
 const placeSaveBtn = popupPlace.querySelector('button[type="submit"]');
 const popupImage = qs("#popupImage");
 const popupImageImg = popupImage.querySelector(".popup-image__image");
@@ -35,28 +35,27 @@ function lockScroll() {
 }
 function openPopup(popupObj) {
     popupObj.classList.add("popup_active");
+    lockScroll();
 }
 function closePopup(popupObj) {
-    popupObj.classList.remove("popup_active")
+    popupObj.classList.remove("popup_active");
+    lockScroll();
 }
 profileEditBtn.addEventListener("click", function () {
     openPopup(popupProfile);
     nameInput.value = profileName.textContent;
     titleInput.value = profileTitle.textContent;
-    lockScroll();
 });
 
 placeAddBtn.addEventListener("click", function () {
     openPopup(popupPlace);
     placeNameInput.value = "";
     placeImageInput.value = "";
-    lockScroll();
 });
 
 const closeButtons = document.querySelectorAll(".btn_to_close");
 closeButtons.forEach((button) => button.addEventListener("click", function (event) {
     closePopup(event.target.closest('.popup'));
-    lockScroll();
 }));
 
 const popups = document.querySelectorAll(".popup");
@@ -65,39 +64,21 @@ popups.forEach((popup) => popup.addEventListener("click", function (event) {
         {
             closePopup(this);
         }
-        lockScroll();
     }
 }));
-function isNullOrWhiteSpace(str) {
-    return (!str || (str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')).length === 0)
-};
-
 function saveProfile() {
-    const nameIsValid = !isNullOrWhiteSpace(nameInput.value);
-    const titleIsValid = !isNullOrWhiteSpace(titleInput.value);
-    const res = nameIsValid && titleIsValid;
-    if (res) {
-        profileName.textContent = nameInput.value;
-        profileTitle.textContent = titleInput.value;
-    }
-    return res;
+    profileName.textContent = nameInput.value;
+    profileTitle.textContent = titleInput.value;
 }
 
-profileSaveBtn.addEventListener("click", function (event) {
+profileSaveBtn.addEventListener("submit", function (event) {
     const profileIsValid = saveProfile();
     if (profileIsValid) {
         closePopup(event.target.closest('.popup'));
-        lockScroll();
     }
 })
 
-function addPlace(name, link) {
-    const placeIsValid = !isNullOrWhiteSpace(placeNameInput.value);
-    const imageIsValid = !isNullOrWhiteSpace(placeImageInput.value);
-    const res = placeIsValid && imageIsValid;
-    if (!res) {
-        return null;
-    }
+function createPlace(name, link) {
     const element = elementTemplate.querySelector('.element').cloneNode(true);
     const elementImg = element.querySelector(".element__image");
     const elementMesto = element.querySelector(".element__mesto");
@@ -114,7 +95,6 @@ function addPlace(name, link) {
         const title = imgObj.alt;
         watchImage(image, title);
         openPopup(popupImage);
-        lockScroll();
     });
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
         event.currentTarget.classList.toggle("btn_to_check-active");
@@ -122,13 +102,10 @@ function addPlace(name, link) {
     return element;
 }
 
-placeSaveBtn.addEventListener("click", function (event) {
-    const element = addPlace(placeNameInput.value, placeImageInput.value);
-    if (element) {
-        elements.prepend(element);
-        closePopup(event.target.closest('.popup'));
-        lockScroll();
-    }
+placeSaveBtn.addEventListener("submit", function (event) {
+    const element = createPlace(placeNameInput.value, placeImageInput.value);
+    elements.prepend(element);
+    closePopup(event.target.closest('.popup'));
 })
 
 function watchImage(image, title) {
@@ -154,7 +131,6 @@ function displayCard(name, link) {
         const title = imgObj.alt;
         watchImage(image, title);
         openPopup(popupImage)
-        lockScroll();
     });
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
         event.currentTarget.classList.toggle("btn_to_check-active");
@@ -189,9 +165,11 @@ function initCards() {
             link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
         }
     ];
-    initialCards.forEach((item) => displayCard(item.name, item.link));
+    initialCards.forEach((item) => {
+        const element = createPlace(item.name, item.link)
+        elements.prepend(element);
+    });
 }
-
 initCards();
 
 

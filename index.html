@@ -89,7 +89,7 @@
                         </button>
                     </figcaption>
                 </figure>
- -->
+-->
             </section>
         </main>
         <footer class="footer">
@@ -100,11 +100,17 @@
                 <button type="button" class="btn btn_to_close">
                 </button>
                 <h2 class="popup-container__title">Редактировать профиль</h2>
-                <input type="text" class="popup-container__input popup-container__input_field_first"
-                    placeholder="Имя, фамилия">
-                <input type="text" class="popup-container__input popup-container__input_field_second"
-                    placeholder="О себе">
-                <button class="btn btn_to_save" type="submit"><span class="btn__label">Сохранить</span></button>
+                <form class="form">
+                    <fieldset class="fieldset">
+                        <input type="text" class="fieldset__input fieldset__input_field_first"
+                            placeholder="Имя, фамилия" required>
+                    </fieldset>
+                    <fieldset class="fieldset ">
+                        <input type="text" class="fieldset__input fieldset__input_field_second" placeholder="О себе"
+                            required>
+                    </fieldset>
+                    <button class="btn btn_to_save" type="submit"><span class="btn__label">Сохранить</span></button>
+                </form>
             </div>
         </div>
         <div id="popupPlace" class="popup">
@@ -112,11 +118,17 @@
                 <button type="button" class="btn btn_to_close">
                 </button>
                 <h2 class="popup-container__title">Новое место</h2>
-                <input type="text" class="popup-container__input popup-container__input_field_first"
-                    placeholder="Название">
-                <input type="text" class="popup-container__input popup-container__input_field_second"
-                    placeholder="Ссылка на картинку">
-                <button class="btn btn_to_save" type="submit"><span class="btn__label">Создать</span></button>
+                <form class="form">
+                    <fieldset class="fieldset">
+                        <input type="text" class="fieldset__input fieldset__input_field_first" placeholder="Название"
+                            required>
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <input type="text" class="fieldset__input fieldset__input_field_second"
+                            placeholder="Ссылка на картинку" required>
+                    </fieldset>
+                    <button class="btn btn_to_save" type="submit"><span class="btn__label">Создать</span></button>
+                </form>
             </div>
         </div>
         <div id="popupImage" class="popup popup_bckg_dark">

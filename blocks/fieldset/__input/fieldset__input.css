@@ -1,6 +1,8 @@
-.popup-container__input {
+.fieldset__input {
     margin: 0;
     padding-bottom: 13px;
+    padding-left: 0px;
+    padding-right: 0px;
     width: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -14,11 +16,5 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    border-top: 0;
-    border-right: 0;
-    border-bottom: 1px;
-    border-left: 0;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.2);
     outline: none;
 }

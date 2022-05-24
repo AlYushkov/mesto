@@ -41,9 +41,13 @@
 @import url(../blocks/popup/_bckg/popup_bckg_dark.css);
 @import url(../blocks/popup-container/popup-container.css);
 @import url(../blocks/popup-container/__title/popup-container__title.css);
-@import url(../blocks/popup-container/__input/popup-container__input.css);
-@import url(../blocks/popup-container/__input/_field/popup-container__input_field_first.css);
-@import url(../blocks/popup-container/__input/_field/popup-container__input_field_second.css);
 @import url(../blocks/popup-image/popup-image.css);
 @import url(../blocks/popup-image/__image/popup-image__image.css);
 @import url(../blocks/popup-image/__title/popup-image__title.css);
+
+@import url(../blocks/form/form.css);
+
+@import url(../blocks/fieldset/fieldset.css);
+@import url(../blocks/fieldset/__input/fieldset__input.css);
+@import url(../blocks/fieldset/__input/_field/fieldset__input_field_first.css);
+@import url(../blocks/fieldset/__input/_field/fieldset__input_field_second.css);
