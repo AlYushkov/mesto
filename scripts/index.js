@@ -17,6 +17,8 @@ const popupImageTitle = qs(".popup-image__title");
 const bodyStyle = [false, document.body.style.overflowY, document.body.style.position];
 const elements = qs(".elements");
 const elementTemplate = qs("#elementTemplate").content;
+const profileForm = document.forms.profile;
+const placeForm = document.forms.place;
 let lockedPadding;
 
 function lockScroll() {
@@ -71,11 +73,9 @@ function saveProfile() {
     profileTitle.textContent = titleInput.value;
 }
 
-profileSaveBtn.addEventListener("submit", function (event) {
-    const profileIsValid = saveProfile();
-    if (profileIsValid) {
-        closePopup(event.target.closest('.popup'));
-    }
+profileForm.addEventListener("submit", function (event) {
+    saveProfile();
+    closePopup(event.target.closest('.popup'));
 })
 
 function createPlace(name, link) {
@@ -102,7 +102,7 @@ function createPlace(name, link) {
     return element;
 }
 
-placeSaveBtn.addEventListener("submit", function (event) {
+placeForm.addEventListener("submit", function (event) {
     const element = createPlace(placeNameInput.value, placeImageInput.value);
     elements.prepend(element);
     closePopup(event.target.closest('.popup'));
