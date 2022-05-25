@@ -76,6 +76,7 @@ function saveProfile() {
 profileForm.addEventListener("submit", function (event) {
     saveProfile();
     closePopup(event.target.closest('.popup'));
+    event.preventDefault();
 })
 
 function createPlace(name, link) {
@@ -106,6 +107,7 @@ placeForm.addEventListener("submit", function (event) {
     const element = createPlace(placeNameInput.value, placeImageInput.value);
     elements.prepend(element);
     closePopup(event.target.closest('.popup'));
+    event.preventDefault();
 })
 
 function watchImage(image, title) {
