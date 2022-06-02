@@ -100,16 +100,21 @@
                 <button type="button" class="btn btn_to_close">
                 </button>
                 <h2 class="popup-container__title">Редактировать профиль</h2>
-                <form class="form" name="profile">
+                <form class="form" name="profile" novalidate>
                     <fieldset class="fieldset">
-                        <input type="text" class="fieldset__input fieldset__input_field_first"
-                            placeholder="Имя, фамилия" required>
+                        <input id="nameInput" name="nameInput" type="text"
+                            class="fieldset__input fieldset__input_field_first" placeholder="Имя, фамилия" required
+                            minlength="2" maxlength="40">
+                        <span class="fieldset__input-error"></span>
                     </fieldset>
                     <fieldset class="fieldset ">
-                        <input type="text" class="fieldset__input fieldset__input_field_second" placeholder="О себе"
-                            required>
+                        <input id="titleInput" name="titleInput" type="text"
+                            class="fieldset__input fieldset__input_field_second" placeholder="О себе" required
+                            minlength="2" maxlength="200">
+                        <span class="fieldset__input-error"></span>
                     </fieldset>
-                    <button class="btn btn_to_save" type="submit"><span class="btn__label">Сохранить</span></button>
+                    <button class="btn btn_to_save btn_to_save-disabled" type="submit" name="saveProfile"><span
+                            class="btn__label btn__label_mod_disabled">Сохранить</span></button>
                 </form>
             </div>
         </div>
@@ -120,14 +125,17 @@
                 <h2 class="popup-container__title">Новое место</h2>
                 <form class="form" name="place">
                     <fieldset class="fieldset">
-                        <input type="text" class="fieldset__input fieldset__input_field_first" placeholder="Название"
-                            required>
+                        <input id="placeInput" type="text" class="fieldset__input fieldset__input_field_first"
+                            placeholder="Название" required minlength="2" maxlength="30">
+                        <span class="fieldset__input-error"></span>
                     </fieldset>
                     <fieldset class="fieldset">
-                        <input type="text" class="fieldset__input fieldset__input_field_second"
+                        <input id="linkInput" type="url" class="fieldset__input fieldset__input_field_second"
                             placeholder="Ссылка на картинку" required>
+                        <span class="fieldset__input-error"></span>
                     </fieldset>
-                    <button class="btn btn_to_save" type="submit"><span class="btn__label">Создать</span></button>
+                    <button class="btn btn_to_save btn_to_save-disabled" type="submit" name="savePlace"><span
+                            class="btn__label btn__label_mod_disabled">Создать</span></button>
                 </form>
             </div>
         </div>
@@ -155,6 +163,8 @@
         </figure>
     </template>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/fetchData.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

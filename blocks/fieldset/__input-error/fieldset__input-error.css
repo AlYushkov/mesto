@@ -1,0 +1,13 @@
+.fieldset__input-error {
+    padding-top: 5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Inter", "Arial", "sans-serif";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0em;
+    text-align: left;
+    white-space: normal;
+    color: #FF0000;
+}
