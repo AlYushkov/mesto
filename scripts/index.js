@@ -24,8 +24,8 @@ let lockedPadding;
 const forms = {};
 function getForms() {
     popups.forEach((popup) => {
-        const formObject = popup.querySelector(".form");
         const formElements = {};
+        const formObject = popup.querySelector(".form");
         if (formObject) {
             formElements.saveBtn = formObject.querySelector(".btn_to_save");
             formElements.inputs = formObject.querySelectorAll(".fieldset__input");
@@ -102,7 +102,6 @@ const clearInputErrors = (popupObj) => {
     popupObj.inputs.forEach((inputElement) => {
         if (inputElement.classList.contains("fieldset__input_fail")) {
             inputElement.classList.remove("fieldset__input_fail");
-            popupObj.saveBtn.children[0].classList.remove("btn__label_mod_disabled");
         }
         inputElement.nextElementSibling.textContent = "";
     });
@@ -137,7 +136,7 @@ saveProfileButton.addEventListener("click", function (event) {
         saveProfile();
         const popupElement = saveProfileButton.closest(".popup");
         const popupForm = forms[popupElement.id];
-        clearInputErrors(popupForm, false);
+        clearInputErrors(popupForm);
         closePopup(popupElement);
     }
 })
@@ -180,7 +179,7 @@ savePlaceButton.addEventListener("click", function (event) {
         const popupForm = forms[popupElement.id];
         const element = createPlace(popupForm.inputs[0].value, popupForm.inputs[1].value);
         elements.prepend(element);
-        clearInputErrors(popupForm, false);
+        clearInputErrors(popupForm);
         closePopup(popupElement);
     }
 })
