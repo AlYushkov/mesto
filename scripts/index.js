@@ -7,19 +7,38 @@ const placeAddBtn = qs(".btn_to_add");
 const popupProfile = qs("#popupProfile");
 const nameInput = popupProfile.querySelector(".fieldset__input_field_first");
 const titleInput = popupProfile.querySelector(".fieldset__input_field_second");
+const saveProfileButton = popupProfile.querySelector(".btn_to_save");
 const popupPlace = qs("#popupPlace");
 const placeNameInput = popupPlace.querySelector(".fieldset__input_field_first")
 const placeImageInput = popupPlace.querySelector(".fieldset__input_field_second");
+const savePlaceButton = popupPlace.querySelector(".btn_to_save");
 const popupImage = qs("#popupImage");
 const popupImageImg = popupImage.querySelector(".popup-image__image");
 const popupImageTitle = qs(".popup-image__title");
 const bodyStyle = [false, document.body.style.overflowY, document.body.style.position];
 const elements = qs(".elements");
 const elementTemplate = qs("#elementTemplate").content;
-const profileForm = document.forms.profile;
-const placeForm = document.forms.place;
-const popups = document.querySelectorAll(".popup");
+const popups = Array.from(document.querySelectorAll(".popup"));
+const closeButtons = document.querySelectorAll(".btn_to_close");
 let lockedPadding;
+const forms = {};
+function getForms() {
+    popups.forEach((popup) => {
+        const formObject = popup.querySelector(".form");
+        const formElements = {};
+        if (formObject) {
+            formElements.saveBtn = formObject.querySelector(".btn_to_save");
+            formElements.inputs = formObject.querySelectorAll(".fieldset__input");
+            forms[`${popup.id}`] = formElements;
+        }
+        else {
+            formElements.saveBtn = null;
+            formElements.inputs = null;
+            forms[`${popup.id}`] = formElements;
+        }
+    });
+}
+getForms();
 
 const lockScroll = () => {
     bodyStyle[0] = !bodyStyle[0];
@@ -35,6 +54,7 @@ const lockScroll = () => {
         document.body.style.position = bodyStyle[2];
     }
 }
+
 const openPopup = (popupObj) => {
     popupObj.classList.add("popup_active");
     lockScroll();
@@ -44,6 +64,53 @@ const closePopup = (popupObj) => {
     popupObj.classList.remove("popup_active");
     lockScroll();
 }
+
+popups.forEach((popupElement) => {
+    popupElement.addEventListener("click", function (event) {
+        if (event.target == event.currentTarget) {
+            {
+                const popupElement = this;
+                const popupForm = forms[popupElement.id];
+                clearInputErrors(popupForm);
+                closePopup(popupElement);
+            }
+        }
+    });
+});
+
+closeButtons.forEach((closeBtn) => {
+    closeBtn.addEventListener("click", function () {
+        const popupElement = closeBtn.closest(".popup");
+        const popupForm = forms[popupElement.id];
+        clearInputErrors(popupForm);
+        closePopup(popupElement);
+    });
+});
+
+const isPopupActive = (popupElement) => popupElement.classList.contains('popup_active');
+document.addEventListener("keydown", function (event) {
+    const elementIndex = popups.findIndex(isPopupActive);
+    if (elementIndex > -1 && event.key === "Escape") {
+        const popupForm = forms[`${popups[elementIndex].id}`];
+        clearInputErrors(popupForm);
+        closePopup(popups[elementIndex]);
+    }
+});
+
+const clearInputErrors = (popupObj) => {
+    if (!popupObj.inputs) return;
+    popupObj.inputs.forEach((inputElement) => {
+        if (inputElement.classList.contains("fieldset__input_fail")) {
+            inputElement.classList.remove("fieldset__input_fail");
+            popupObj.saveBtn.children[0].classList.remove("btn__label_mod_disabled");
+        }
+        inputElement.nextElementSibling.textContent = "";
+    });
+    if (!popupObj.saveBtn.classList.contains("btn_to_save-disabled")) {
+        popupObj.saveBtn.classList.add("btn_to_save-disabled")
+        popupObj.saveBtn.children[0].classList.add("btn__label_mod_disabled");
+    }
+};
 
 profileEditBtn.addEventListener("click", function () {
     nameInput.value = profileName.textContent;
@@ -63,6 +130,17 @@ const saveProfile = () => {
     profileName.textContent = nameInput.value;
     profileTitle.textContent = titleInput.value;
 }
+saveProfileButton.addEventListener("click", function (event) {
+    if (saveProfileButton.classList.contains("btn_to_save-disabled"))
+        event.stopImmediatePropagation();
+    else {
+        saveProfile();
+        const popupElement = saveProfileButton.closest(".popup");
+        const popupForm = forms[popupElement.id];
+        clearInputErrors(popupForm, false);
+        closePopup(popupElement);
+    }
+})
 
 const watchImage = (image, title) => {
     popupImageImg.src = image;
@@ -91,9 +169,21 @@ const createPlace = (name, link) => {
     element.querySelector(".btn_to_check").addEventListener("click", function (event) {
         event.currentTarget.classList.toggle("btn_to_check-active");
     });
-    element
     return element;
 }
+
+savePlaceButton.addEventListener("click", function (event) {
+    if (savePlaceButton.classList.contains("btn_to_save-disabled"))
+        event.stopImmediatePropagation();
+    else {
+        const popupElement = savePlaceButton.closest(".popup");
+        const popupForm = forms[popupElement.id];
+        const element = createPlace(popupForm.inputs[0].value, popupForm.inputs[1].value);
+        elements.prepend(element);
+        clearInputErrors(popupForm, false);
+        closePopup(popupElement);
+    }
+})
 
 
 
