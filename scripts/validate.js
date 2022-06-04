@@ -38,12 +38,10 @@ function toggleButtonState(buttonObj, buttonClass, labelClass, formInputs, error
     if (inValid) {
         buttonObj.classList.add(buttonClass);
         buttonObj.children[0].classList.add(labelClass);
-        buttonObj.type = "button";
     }
     else if (buttonObj.classList.contains(buttonClass)) {
         buttonObj.classList.remove(buttonClass);
         buttonObj.children[0].classList.remove(labelClass);
-        buttonObj.type = "submit";
     }
 };
 

@@ -4,16 +4,12 @@ const profileName = qs(".profile__name");
 const profileTitle = qs(".profile__title");
 const profileEditBtn = qs(".btn_to_edit");
 const placeAddBtn = qs(".btn_to_add");
-const popupProfile = qs("#popupProfile");
-const nameInput = popupProfile.querySelector(".fieldset__input_field_first");
-const titleInput = popupProfile.querySelector(".fieldset__input_field_second");
-const saveProfileButton = popupProfile.querySelector(".btn_to_save");
-const popupPlace = qs("#popupPlace");
-const placeNameInput = popupPlace.querySelector(".fieldset__input_field_first")
-const placeImageInput = popupPlace.querySelector(".fieldset__input_field_second");
-const savePlaceButton = popupPlace.querySelector(".btn_to_save");
-const popupImage = qs("#popupImage");
-const popupImageImg = popupImage.querySelector(".popup-image__image");
+let popupProfile;
+let saveProfileButton;
+let popupPlace;
+let savePlaceButton;
+let popupImage;
+let popupImageImg;
 const popupImageTitle = qs(".popup-image__title");
 const bodyStyle = [false, document.body.style.overflowY, document.body.style.position];
 const elements = qs(".elements");
@@ -22,22 +18,43 @@ const popups = Array.from(document.querySelectorAll(".popup"));
 const closeButtons = document.querySelectorAll(".btn_to_close");
 let lockedPadding;
 const forms = {};
+const createFormElement = (popup) => {
+    const formElements = {};
+    const formObject = popup.querySelector(".form");
+    if (formObject) {
+        formElements.saveBtn = formObject.querySelector(".btn_to_save");
+        formElements.inputs = formObject.querySelectorAll(".fieldset__input");
+        forms[`${popup.id}`] = formElements;
+    }
+    else {
+        formElements.saveBtn = null;
+        formElements.inputs = null;
+        forms[`${popup.id}`] = formElements;
+    }
+}
+const setPopupExpressions = (popup) => {
+    switch (popup.id) {
+        case "popupProfile":
+            popupProfile = popup;
+            saveProfileButton = forms[`${popup.id}`].saveBtn;
+            break;
+        case "popupPlace":
+            popupPlace = popup;
+            savePlaceButton = forms[`${popup.id}`].saveBtn;
+            break;
+        case "popupImage":
+            popupImage = popup;
+            popupImageImg = popupImage.querySelector(".popup-image__image");
+            break;
+    }
+}
 function getForms() {
     popups.forEach((popup) => {
-        const formElements = {};
-        const formObject = popup.querySelector(".form");
-        if (formObject) {
-            formElements.saveBtn = formObject.querySelector(".btn_to_save");
-            formElements.inputs = formObject.querySelectorAll(".fieldset__input");
-            forms[`${popup.id}`] = formElements;
-        }
-        else {
-            formElements.saveBtn = null;
-            formElements.inputs = null;
-            forms[`${popup.id}`] = formElements;
-        }
+        createFormElement(popup);
+        setPopupExpressions(popup);
     });
 }
+
 getForms();
 
 const lockScroll = () => {
@@ -112,30 +129,32 @@ const clearInputErrors = (popupObj) => {
 };
 
 profileEditBtn.addEventListener("click", function () {
-    nameInput.value = profileName.textContent;
-    titleInput.value = profileTitle.textContent;
+    const form = forms[`${popupProfile.id}`];
+    form.inputs[0].value = profileName.textContent;
+    form.inputs[1].value = profileTitle.textContent;
     openPopup(popupProfile);
-    nameInput.focus();
+    form.inputs[0].focus();
 });
 
 placeAddBtn.addEventListener("click", function () {
-    placeNameInput.value = "";
-    placeImageInput.value = "";
+    const form = forms[`${popupPlace.id}`];
+    form.inputs[0].value = "";
+    form.inputs[1].value = "";
     openPopup(popupPlace);
-    placeNameInput.focus();
+    form.inputs[0].focus();
 });
 
-const saveProfile = () => {
-    profileName.textContent = nameInput.value;
-    profileTitle.textContent = titleInput.value;
+const saveProfile = (name, title) => {
+    profileName.textContent = name;
+    profileTitle.textContent = title;
 }
 saveProfileButton.addEventListener("click", function (event) {
     if (saveProfileButton.classList.contains("btn_to_save-disabled"))
         event.stopImmediatePropagation();
     else {
-        saveProfile();
         const popupElement = saveProfileButton.closest(".popup");
         const popupForm = forms[popupElement.id];
+        saveProfile(popupForm.inputs[0].value, popupForm.inputs[1].value);
         clearInputErrors(popupForm);
         closePopup(popupElement);
     }
