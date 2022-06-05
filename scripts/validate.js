@@ -1,18 +1,18 @@
-enableValidation({
+const cfg = {
     form: '.form',
     input: '.fieldset__input',
     saveButton: '.btn_to_save',
     disabledSaveButton: 'btn_to_save-disabled',
     disabledSaveButtonLabel: 'btn__label_mod_disabled',
     error: 'fieldset__input_fail'
-});
+}
+const forms = {};
+
+enableValidation(cfg);
 
 function enableValidation(vs) {
     const formsArray = Array.from(document.querySelectorAll(vs.form));
     formsArray.forEach((formElement) => {
-        formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-        });
         setEventListeners(formElement, vs.input, vs.error, vs.saveButton,
             vs.disabledSaveButton, vs.disabledSaveButtonLabel);
     });
@@ -22,6 +22,10 @@ function setEventListeners(formElement, inputSelector, inputErrorClass,
     buttonElement, disabledButtonClass, disabledButtonLabelClass) {
     const inputsArray = Array.from(formElement.querySelectorAll(inputSelector));
     const button = formElement.querySelector(buttonElement);
+    const form = {};
+    form.saveBtn = button;
+    form.inputs = inputsArray;
+    forms[`${formElement.name}`] = form;
     inputsArray.forEach((inputElement) => {
         inputElement.addEventListener('input', function () {
             checkInputValidity(inputElement, inputErrorClass);

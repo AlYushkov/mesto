@@ -17,45 +17,27 @@ const elementTemplate = qs("#elementTemplate").content;
 const popups = Array.from(document.querySelectorAll(".popup"));
 const closeButtons = document.querySelectorAll(".btn_to_close");
 let lockedPadding;
-const forms = {};
-const createFormElement = (popup) => {
-    const formElements = {};
-    const formObject = popup.querySelector(".form");
-    if (formObject) {
-        formElements.saveBtn = formObject.querySelector(".btn_to_save");
-        formElements.inputs = formObject.querySelectorAll(".fieldset__input");
-        forms[`${popup.id}`] = formElements;
-    }
-    else {
-        formElements.saveBtn = null;
-        formElements.inputs = null;
-        forms[`${popup.id}`] = formElements;
-    }
-}
-const setPopupExpressions = (popup) => {
-    switch (popup.id) {
-        case "popupProfile":
-            popupProfile = popup;
-            saveProfileButton = forms[`${popup.id}`].saveBtn;
-            break;
-        case "popupPlace":
-            popupPlace = popup;
-            savePlaceButton = forms[`${popup.id}`].saveBtn;
-            break;
-        case "popupImage":
-            popupImage = popup;
-            popupImageImg = popupImage.querySelector(".popup-image__image");
-            break;
-    }
-}
-function getForms() {
+
+
+const setPopupExpressions = (popups) => {
     popups.forEach((popup) => {
-        createFormElement(popup);
-        setPopupExpressions(popup);
+        switch (popup.id) {
+            case "popupProfile":
+                popupProfile = popup;
+                saveProfileButton = forms["profile"].saveBtn;
+                break;
+            case "popupPlace":
+                popupPlace = popup;
+                savePlaceButton = forms["place"].saveBtn;
+                break;
+            case "popupImage":
+                popupImage = popup;
+                popupImageImg = popupImage.querySelector(".popup-image__image");
+                break;
+        }
     });
 }
-
-getForms();
+setPopupExpressions(popups);
 
 const lockScroll = () => {
     bodyStyle[0] = !bodyStyle[0];
@@ -71,15 +53,27 @@ const lockScroll = () => {
         document.body.style.position = bodyStyle[2];
     }
 }
-
+let activePopup;
+function escEventHandler(event) {
+    if (event.key === "Escape") {
+        closePopup(activePopup);
+    };
+};
 const openPopup = (popupObj) => {
     popupObj.classList.add("popup_active");
     lockScroll();
+    activePopup = popupObj;
+    document.addEventListener("keydown", escEventHandler);
 }
 
 const closePopup = (popupObj) => {
     popupObj.classList.remove("popup_active");
     lockScroll();
+    if (activePopup) {
+        document.removeEventListener("keydown", escEventHandler);
+        activePopup = null;
+    }
+
 }
 
 popups.forEach((popupElement) => {
@@ -87,8 +81,6 @@ popups.forEach((popupElement) => {
         if (event.target == event.currentTarget) {
             {
                 const popupElement = this;
-                const popupForm = forms[popupElement.id];
-                clearInputErrors(popupForm);
                 closePopup(popupElement);
             }
         }
@@ -98,67 +90,68 @@ popups.forEach((popupElement) => {
 closeButtons.forEach((closeBtn) => {
     closeBtn.addEventListener("click", function () {
         const popupElement = closeBtn.closest(".popup");
-        const popupForm = forms[popupElement.id];
-        clearInputErrors(popupForm);
         closePopup(popupElement);
     });
 });
 
-const isPopupActive = (popupElement) => popupElement.classList.contains('popup_active');
-document.addEventListener("keydown", function (event) {
-    const elementIndex = popups.findIndex(isPopupActive);
-    if (elementIndex > -1 && event.key === "Escape") {
-        const popupForm = forms[`${popups[elementIndex].id}`];
-        clearInputErrors(popupForm);
-        closePopup(popups[elementIndex]);
-    }
-});
-
-const clearInputErrors = (popupObj) => {
-    if (!popupObj.inputs) return;
-    popupObj.inputs.forEach((inputElement) => {
-        if (inputElement.classList.contains("fieldset__input_fail")) {
-            inputElement.classList.remove("fieldset__input_fail");
-        }
-        inputElement.nextElementSibling.textContent = "";
-    });
-    if (!popupObj.saveBtn.classList.contains("btn_to_save-disabled")) {
-        popupObj.saveBtn.classList.add("btn_to_save-disabled")
-        popupObj.saveBtn.children[0].classList.add("btn__label_mod_disabled");
-    }
-};
-
 profileEditBtn.addEventListener("click", function () {
-    const form = forms[`${popupProfile.id}`];
-    form.inputs[0].value = profileName.textContent;
-    form.inputs[1].value = profileTitle.textContent;
+    const form = forms["profile"];
+    form.inputs.forEach((input) => {
+        hideInputError(input, cfg.error);
+        switch (input.id) {
+            case "nameInput":
+                input.value = profileName.textContent;
+                input.focus();
+                break;
+            case "titleInput":
+                input.value = profileTitle.textContent;
+                break;
+            default:
+                break;
+        }
+    });
     openPopup(popupProfile);
-    form.inputs[0].focus();
 });
 
 placeAddBtn.addEventListener("click", function () {
-    const form = forms[`${popupPlace.id}`];
-    form.inputs[0].value = "";
-    form.inputs[1].value = "";
+    const form = forms["place"];
+    form.inputs.forEach((input) => {
+        hideInputError(input, cfg.error);
+        switch (input.id) {
+            case "placeInput":
+                input.value = "";
+                input.focus();
+                break;
+            case "linkInput":
+                input.value = "";
+                break;
+        }
+    });
     openPopup(popupPlace);
-    form.inputs[0].focus();
 });
 
-const saveProfile = (name, title) => {
-    profileName.textContent = name;
-    profileTitle.textContent = title;
-}
-saveProfileButton.addEventListener("click", function (event) {
+const saveProfileEventHandler = (event) => {
+    event.preventDefault();
     if (saveProfileButton.classList.contains("btn_to_save-disabled"))
         event.stopImmediatePropagation();
     else {
-        const popupElement = saveProfileButton.closest(".popup");
-        const popupForm = forms[popupElement.id];
-        saveProfile(popupForm.inputs[0].value, popupForm.inputs[1].value);
-        clearInputErrors(popupForm);
-        closePopup(popupElement);
+        const inputsArray = forms["profile"].inputs;
+        inputsArray.forEach((input) => {
+            switch (input.id) {
+                case "nameInput":
+                    profileName.textContent = input.value;
+                    break;
+                case "titleInput":
+                    profileTitle.textContent = input.value;
+                    break;
+                default:
+                    break;
+            }
+        });
+        closePopup(popupProfile);
     }
-})
+}
+popupProfile.addEventListener("submit", saveProfileEventHandler);
 
 const watchImage = (image, title) => {
     popupImageImg.src = image;
@@ -190,18 +183,33 @@ const createPlace = (name, link) => {
     return element;
 }
 
-savePlaceButton.addEventListener("click", function (event) {
+const savePlaceEventHandler = (event) => {
+    event.preventDefault();
     if (savePlaceButton.classList.contains("btn_to_save-disabled"))
         event.stopImmediatePropagation();
     else {
-        const popupElement = savePlaceButton.closest(".popup");
-        const popupForm = forms[popupElement.id];
-        const element = createPlace(popupForm.inputs[0].value, popupForm.inputs[1].value);
+        const inputsArray = forms["place"].inputs;
+        let name;
+        let link;
+        inputsArray.forEach((input) => {
+            switch (input.id) {
+                case "placeInput":
+                    name = input.value;
+                    break;
+                case "linkInput":
+                    link = input.value;
+                    break;
+                default:
+                    break;
+            }
+        })
+        const element = createPlace(name, link);
         elements.prepend(element);
-        clearInputErrors(popupForm);
-        closePopup(popupElement);
+        closePopup(popupPlace);
     }
-})
+}
+
+popupPlace.addEventListener("submit", savePlaceEventHandler);
 
 
 
