@@ -99,6 +99,8 @@ function checkFormElements(popupObj) {
 let activePopup;
 function escEventHandler(event) {
     if (event.key === "Escape") {
+        if (activePopup !== popupImage)
+            checkFormElements(activePopup)
         closePopup(activePopup);
     };
 };
@@ -113,7 +115,6 @@ const openPopup = (popupObj) => {
 const closePopup = (popupObj) => {
     popupObj.classList.remove("popup_active");
     lockScroll();
-    checkFormElements(popupObj);
     if (activePopup) {
         document.removeEventListener("keydown", escEventHandler);
         activePopup = null;
@@ -125,6 +126,8 @@ popups.forEach((popupElement) => {
         if (event.target == event.currentTarget) {
             {
                 const popupElement = this;
+                if (popupElement !== popupImage)
+                    checkFormElements(popupElement);
                 closePopup(popupElement);
             }
         }
@@ -134,6 +137,8 @@ popups.forEach((popupElement) => {
 closeButtons.forEach((closeBtn) => {
     closeBtn.addEventListener("click", function () {
         const popupElement = closeBtn.closest(".popup");
+        if (popupElement !== popupImage)
+            checkFormElements(popupElement);
         closePopup(popupElement);
     });
 });
@@ -156,6 +161,7 @@ const saveProfileEventHandler = (event) => {
     event.preventDefault();
     profileName.textContent = profileNameInput.value;
     profileTitle.textContent = profileTitleInput.value;
+    checkFormElements(popupProfile);
     closePopup(popupProfile);
 }
 popupProfile.addEventListener("submit", saveProfileEventHandler);
@@ -194,6 +200,7 @@ const savePlaceEventHandler = (event) => {
     event.preventDefault();
     const element = createPlace(placeNameInput.value, placeImgLinkInput.value);
     elements.prepend(element);
+    checkFormElements(popupPlace);
     closePopup(popupPlace);
 }
 
