@@ -5,9 +5,13 @@ const profileTitle = qs(".profile__title");
 const profileEditBtn = qs(".btn_to_edit");
 const placeAddBtn = qs(".btn_to_add");
 let popupProfile;
-let saveProfileButton;
+let profileSaveButton;
+let profileNameInput;
+let profileTitleInput;
 let popupPlace;
-let savePlaceButton;
+let placeSaveButton;
+let placeNameInput;
+let placeImgLinkInput;
 let popupImage;
 let popupImageImg;
 const popupImageTitle = qs(".popup-image__title");
@@ -17,18 +21,38 @@ const elementTemplate = qs("#elementTemplate").content;
 const popups = Array.from(document.querySelectorAll(".popup"));
 const closeButtons = document.querySelectorAll(".btn_to_close");
 let lockedPadding;
-
-
+const forms = {};
+function getForms() {
+    const formsArray = Array.from(document.forms);
+    formsArray.forEach((formElement) => {
+        const form = {};
+        form.saveBtn = formElement.querySelector(cfg.saveButton);
+        form.inputs = Array.from(formElement.querySelectorAll(cfg.input));
+        forms[`${formElement.name}`] = form;
+    });
+}
+getForms();
 const setPopupExpressions = (popups) => {
     popups.forEach((popup) => {
         switch (popup.id) {
             case "popupProfile":
                 popupProfile = popup;
-                saveProfileButton = forms["profile"].saveBtn;
-                break;
+                forms["profile"].inputs.forEach((input) => {
+                    if (input.id == "nameInput")
+                        profileNameInput = input;
+                    else
+                        profileTitleInput = input;
+                })
+                profileSaveButton = forms["profile"].saveBtn;
             case "popupPlace":
                 popupPlace = popup;
-                savePlaceButton = forms["place"].saveBtn;
+                forms["place"].inputs.forEach((input) => {
+                    if (input.id == "placeInput")
+                        placeNameInput = input;
+                    else
+                        placeImgLinkInput = input;
+                })
+                placeSaveButton = forms["place"].saveBtn;
                 break;
             case "popupImage":
                 popupImage = popup;
@@ -53,12 +77,32 @@ const lockScroll = () => {
         document.body.style.position = bodyStyle[2];
     }
 }
+
+function checkFormElements(popupObj) {
+    let button;
+    let inputs;
+    switch (popupObj.id) {
+        case "popupProfile":
+            button = forms["profile"].saveBtn;
+            inputs = forms["profile"].inputs;
+            break;
+        case "popupPlace":
+            button = forms["place"].saveBtn;
+            inputs = forms["place"].inputs;
+            break
+        default:
+            return;
+    }
+    resetErrors(button, cfg.disabledSaveButton, cfg.disabledSaveButtonLabel, inputs, cfg.error);
+}
+
 let activePopup;
 function escEventHandler(event) {
     if (event.key === "Escape") {
         closePopup(activePopup);
     };
 };
+
 const openPopup = (popupObj) => {
     popupObj.classList.add("popup_active");
     lockScroll();
@@ -69,11 +113,11 @@ const openPopup = (popupObj) => {
 const closePopup = (popupObj) => {
     popupObj.classList.remove("popup_active");
     lockScroll();
+    checkFormElements(popupObj);
     if (activePopup) {
         document.removeEventListener("keydown", escEventHandler);
         activePopup = null;
     }
-
 }
 
 popups.forEach((popupElement) => {
@@ -95,61 +139,24 @@ closeButtons.forEach((closeBtn) => {
 });
 
 profileEditBtn.addEventListener("click", function () {
-    const form = forms["profile"];
-    form.inputs.forEach((input) => {
-        hideInputError(input, cfg.error);
-        switch (input.id) {
-            case "nameInput":
-                input.value = profileName.textContent;
-                input.focus();
-                break;
-            case "titleInput":
-                input.value = profileTitle.textContent;
-                break;
-            default:
-                break;
-        }
-    });
+    profileNameInput.value = profileName.textContent;
+    profileNameInput.focus();
+    profileTitleInput.value = profileTitle.textContent;
     openPopup(popupProfile);
 });
 
 placeAddBtn.addEventListener("click", function () {
-    const form = forms["place"];
-    form.inputs.forEach((input) => {
-        hideInputError(input, cfg.error);
-        switch (input.id) {
-            case "placeInput":
-                input.value = "";
-                input.focus();
-                break;
-            case "linkInput":
-                input.value = "";
-                break;
-        }
-    });
+    placeNameInput.value = "";
+    placeNameInput.focus();
+    placeImgLinkInput.value = "";
     openPopup(popupPlace);
 });
 
 const saveProfileEventHandler = (event) => {
     event.preventDefault();
-    if (saveProfileButton.classList.contains("btn_to_save-disabled"))
-        event.stopImmediatePropagation();
-    else {
-        const inputsArray = forms["profile"].inputs;
-        inputsArray.forEach((input) => {
-            switch (input.id) {
-                case "nameInput":
-                    profileName.textContent = input.value;
-                    break;
-                case "titleInput":
-                    profileTitle.textContent = input.value;
-                    break;
-                default:
-                    break;
-            }
-        });
-        closePopup(popupProfile);
-    }
+    profileName.textContent = profileNameInput.value;
+    profileTitle.textContent = profileTitleInput.value;
+    closePopup(popupProfile);
 }
 popupProfile.addEventListener("submit", saveProfileEventHandler);
 
@@ -185,28 +192,9 @@ const createPlace = (name, link) => {
 
 const savePlaceEventHandler = (event) => {
     event.preventDefault();
-    if (savePlaceButton.classList.contains("btn_to_save-disabled"))
-        event.stopImmediatePropagation();
-    else {
-        const inputsArray = forms["place"].inputs;
-        let name;
-        let link;
-        inputsArray.forEach((input) => {
-            switch (input.id) {
-                case "placeInput":
-                    name = input.value;
-                    break;
-                case "linkInput":
-                    link = input.value;
-                    break;
-                default:
-                    break;
-            }
-        })
-        const element = createPlace(name, link);
-        elements.prepend(element);
-        closePopup(popupPlace);
-    }
+    const element = createPlace(placeNameInput.value, placeImgLinkInput.value);
+    elements.prepend(element);
+    closePopup(popupPlace);
 }
 
 popupPlace.addEventListener("submit", savePlaceEventHandler);

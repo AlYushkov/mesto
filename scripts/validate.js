@@ -6,7 +6,6 @@ const cfg = {
     disabledSaveButtonLabel: 'btn__label_mod_disabled',
     error: 'fieldset__input_fail'
 }
-const forms = {};
 
 enableValidation(cfg);
 
@@ -22,30 +21,29 @@ function setEventListeners(formElement, inputSelector, inputErrorClass,
     buttonElement, disabledButtonClass, disabledButtonLabelClass) {
     const inputsArray = Array.from(formElement.querySelectorAll(inputSelector));
     const button = formElement.querySelector(buttonElement);
-    const form = {};
-    form.saveBtn = button;
-    form.inputs = inputsArray;
-    forms[`${formElement.name}`] = form;
     inputsArray.forEach((inputElement) => {
         inputElement.addEventListener('input', function () {
             checkInputValidity(inputElement, inputErrorClass);
             toggleButtonState(button, disabledButtonClass, disabledButtonLabelClass,
-                inputsArray, inputErrorClass)
+                inputsArray, inputErrorClass, false)
         });
     });
 }
 
-function toggleButtonState(buttonObj, buttonClass, labelClass, formInputs, errorClass) {
-    const inValid = (formInputs.some(inputElement => {
+function toggleButtonState(buttonObj, buttonClass, labelClass, formInputs, errorClass, reset) {
+
+    const inValid = (reset || formInputs.some(inputElement => {
         return inputElement.classList.contains(errorClass) || inputElement.value === "";
     }));
     if (inValid) {
         buttonObj.classList.add(buttonClass);
         buttonObj.children[0].classList.add(labelClass);
+        buttonObj.disabled = true;
     }
     else if (buttonObj.classList.contains(buttonClass)) {
         buttonObj.classList.remove(buttonClass);
         buttonObj.children[0].classList.remove(labelClass);
+        buttonObj.disabled = false;
     }
 };
 
@@ -68,3 +66,8 @@ const hideInputError = (inputObj, errorClass) => {
         inputObj.nextElementSibling.textContent = "";
     }
 };
+
+function resetErrors(buttonObj, buttonClass, labelClass, formInputs, errorClass) {
+    formInputs.forEach((input) => hideInputError(input, errorClass));
+    toggleButtonState(buttonObj, buttonClass, labelClass, formInputs, errorClass, true);
+}
