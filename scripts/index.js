@@ -123,8 +123,7 @@ popups.forEach((popupElement) => {
     popupElement.addEventListener("click", function (event) {
         if (event.target == event.currentTarget) {
             {
-                const popupElement = this;
-                closePopup(popupElement);
+                closePopup(this);
             }
         }
     });
