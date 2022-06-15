@@ -1,4 +1,4 @@
-.element__mesto {
+.element__title {
     margin: 0;
     display: block;
     max-width: 190px;
@@ -16,18 +16,18 @@
     overflow: hidden;
 }
 @media screen and (max-width:1174px) {
-    .element__mesto {
+    .element__title {
         max-width: 150px;
     }
 }
 
 @media screen and (max-width:680px) {
-    .element__mesto {
+    .element__title {
         max-width: 120px;
     }
 }
 @media screen and (max-width:480px) {
-    .element__mesto {
+    .element__title {
         max-width: 190px;
     }
 }

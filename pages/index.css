@@ -33,7 +33,7 @@
 @import url(../blocks/element/__img-wrapper/element__img-wrapper.css);
 @import url(../blocks/element/__image/element__image.css);
 @import url(../blocks/element/__text/element__text.css);
-@import url(../blocks/element/__mesto/element__mesto.css);
+@import url(../blocks/element/__title/element__title.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__text/footer__text.css);
