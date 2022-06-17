@@ -4,7 +4,7 @@
     padding: 0;
     border: 0;
     left: 0;
-    bottom: -18px;
+    bottom: -30px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Inter", "Arial", "sans-serif";
@@ -13,9 +13,8 @@
     line-height: 1.25;
     letter-spacing: 0em;
     text-align: left;
-    overflow: hidden;
     max-width: 358px;
-    white-space: nowrap;
+    white-space: normal;
     color: #FF0000;
     z-index: 10;
 }

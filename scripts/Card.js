@@ -1,68 +1,44 @@
-import { PopupSwitcher } from "./PopupSwitcher.js";
 export class Card {
     #popup;
     #placeName;
     #imgLink;
     #cardElement;
     #imgElement;
-    #PopupSwitcher;
-    constructor(data, popup) {
+    #likeButton;
+    constructor(data, template) {
         this.#placeName = data.name;
         this.#imgLink = data.link;
-        this.#popup = popup;
-        this.#PopupSwitcher = new PopupSwitcher(popup);
-    }
-
-    #getTemplate() {
-        const element = document
-            .querySelector('#elementTemplate')
-            .content
-            .querySelector('.element')
-            .cloneNode(true);
-        return element;
-    }
-
-    #watchImg() {
-        const popupImage = this.#popup.querySelector('.popup-image__image');
-        popupImage.src = this.#imgLink;
-        popupImage.alt = this.#placeName;
-        this.#popup.querySelector('.popup-image__title').textContent = this.#placeName;
+        this.#cardElement = template;
+        this.#likeButton = this.#cardElement.querySelector(".btn_to_check");
     }
 
     #handleDelete() {
         this.#cardElement.remove();
+        this.#cardElement = null;
     }
 
-    #handleLike(event) {
-        event.currentTarget.classList.toggle("btn_to_check-active");
-    }
-
-    #handleMouseDown(event) {
-        this.#watchImg();
-        this.#PopupSwitcher.switchToDisplay();
+    #handleLike() {
+        this.#likeButton.classList.toggle("btn_to_check-active");
     }
 
     #setEventListeners() {
         this.#cardElement.querySelector(".btn_to_delete").addEventListener("click", () => {
             this.#handleDelete();
         });
-        this.#cardElement.querySelector(".btn_to_check").addEventListener("click", (event) => {
-            this.#handleLike(event);
-        });
-        this.#imgElement.addEventListener("mousedown", (event) => {
-            this.#imgLink = event.target.src;
-            this.#placeName = event.target.alt;
-            this.#handleMouseDown(event);
+        this.#likeButton.addEventListener("click", () => {
+            this.#handleLike();
         });
     }
 
     generateCard() {
-        this.#cardElement = this.#getTemplate();
         this.#cardElement.querySelector('.element__title').textContent = this.#placeName;
         this.#imgElement = this.#cardElement.querySelector('.element__image');
         this.#imgElement.src = this.#imgLink;
         this.#imgElement.alt = this.#placeName;
         this.#setEventListeners();
         return this.#cardElement;
+    }
+    GetImage() {
+        return this.#imgElement;
     }
 }

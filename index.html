@@ -95,7 +95,7 @@
         <footer class="footer">
             <p class="footer__text">&copy; 2020 Mesto Russia</p>
         </footer>
-        <div id="popupProfile" class="popup">
+        <div id="profilePopup" class="popup">
             <div class="popup-container">
                 <button type="button" class="btn btn_to_close">
                 </button>
@@ -104,13 +104,13 @@
                     <fieldset class="fieldset">
                         <input id="nameInput" name="nameInput" type="text"
                             class="fieldset__input fieldset__input_field_first" placeholder="Имя, фамилия" required
-                            minlength="2" maxlength="40">
+                            minlength="2" maxlength="40" autocomplete="off">
                         <span class="fieldset__input-error"></span>
                     </fieldset>
                     <fieldset class="fieldset ">
                         <input id="titleInput" name="titleInput" type="text"
                             class="fieldset__input fieldset__input_field_second" placeholder="О себе" required
-                            minlength="2" maxlength="200">
+                            minlength="2" maxlength="200" autocomplete="off">
                         <span class="fieldset__input-error"></span>
                     </fieldset>
                     <button class="btn btn_to_save btn_to_save-disabled" type="submit" name="saveProfile"><span
@@ -118,7 +118,7 @@
                 </form>
             </div>
         </div>
-        <div id="popupPlace" class="popup">
+        <div id="placePopup" class="popup">
             <div class="popup-container">
                 <button type="button" class="btn btn_to_close">
                 </button>
@@ -126,12 +126,12 @@
                 <form class="form" name="place">
                     <fieldset class="fieldset">
                         <input id="placeInput" type="text" class="fieldset__input fieldset__input_field_first"
-                            placeholder="Название" required minlength="2" maxlength="30">
+                            placeholder="Название" required minlength="2" maxlength="30" autocomplete="off">
                         <span class="fieldset__input-error"></span>
                     </fieldset>
                     <fieldset class="fieldset">
                         <input id="linkInput" type="url" class="fieldset__input fieldset__input_field_second"
-                            placeholder="Ссылка на картинку" required>
+                            placeholder="Ссылка на картинку" required autocomplete="off">
                         <span class="fieldset__input-error"></span>
                     </fieldset>
                     <button class="btn btn_to_save btn_to_save-disabled" type="submit" name="savePlace"><span
@@ -139,7 +139,7 @@
                 </form>
             </div>
         </div>
-        <div id="popupImage" class="popup popup_bckg_dark">
+        <div id="imagePopup" class="popup popup_bckg_dark">
             <div class="popup-image">
                 <button type="button" class="btn btn_to_close">
                 </button>
