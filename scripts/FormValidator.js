@@ -54,10 +54,12 @@ export class FromValidator {
         this.#inputElement.classList.add(this.#configData.error);
         const errorString = this.#inputElement.nextElementSibling;
         errorString.textContent = this.#inputElement.validationMessage;
-        if (errorString.textContent.length < 58 && !errorString.classList.contains(this.#configData.errorSingleString)) {
+        const isSingleString = errorString.classList.contains(this.#configData.errorSingleString)
+        const errorStringLength = errorString.textContent.length;
+        if (errorStringLength < 58 && !isSingleString) {
             errorString.classList.add(this.#configData.errorSingleString);
         }
-        else if (errorString.textContent.length > 57 && errorString.classList.contains(this.#configData.errorSingleString)) {
+        else if (errorStringLength > 57 && isSingleString) {
             errorString.classList.remove(this.#configData.errorSingleString);
         }
     };
