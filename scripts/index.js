@@ -5,28 +5,29 @@ import { initialCards } from "./Mock.js";
 const bodyOverFlowY = document.body.style.overflowY;
 const lockedPadding = window.innerWidth - document.body.offsetWidth + "px";
 
-const popups = Array.from(document.querySelectorAll(".popup"));
 const elements = document.querySelector(".elements");
+const template = document.querySelector('#elementTemplate');
+
 const profileName = document.querySelector(".profile__name");
 const profileTitle = document.querySelector(".profile__title");
-let profileEditBtn = document.querySelector(".btn_to_edit");
-let placeAddBtn = document.querySelector(".btn_to_add");;
-let profilePopup;
-let profilePopupCloseBtn;
-let placePopup;
-let placePopupCloseBtn;
-let imagePopup;
-let imagePopupCloseBtn;
-let isActive;
-let currentPopup;
+const profileEditBtn = document.querySelector(".btn_to_edit");
+const profilePopup = document.querySelector("#profilePopup");
+const profilePopupCloseBtn = profilePopup.querySelector(".btn_to_close");
+
+const placeAddBtn = document.querySelector(".btn_to_add");
+const placePopup = document.querySelector("#placePopup");
+const placePopupCloseBtn = placePopup.querySelector(".btn_to_close");
+
 const config = {
     form: '.form',
+    field: '.fieldset',
     input: '.fieldset__input',
     saveButton: '.btn_to_save',
+    saveButtonLabel: '.btn__label',
     disabledSaveButton: 'btn_to_save-disabled',
     disabledSaveButtonLabel: 'btn__label_mod_disabled',
-    error: 'fieldset__input_fail',
-    errorSingleString: 'fieldset__input-error_sngle-string'
+    failedInput: 'fieldset__input_fail',
+    errorMessage: '.fieldset__input-error'
 }
 const forms = document.forms;
 
@@ -40,99 +41,51 @@ const placeImgLinkInput = forms.place.querySelector("#linkInput");
 const placeValidator = new FromValidator(config, forms.place);
 placeValidator.enableValidation();
 
-function lockScroll() {
-    isActive = !isActive;
-    if (isActive) {
-        document.body.style.overflowY = "hidden";
-        document.body.style.paddingRight = lockedPadding;
-        document.addEventListener("keydown", handleEscKeyDown);
-    }
-    else {
-        document.body.style.paddingRight = "0px";
-        document.body.style.overflowY = bodyOverFlowY;
-        document.removeEventListener("keydown", handleEscKeyDown);
-    }
-}
 function handleEscKeyDown(event) {
     if (event.key === "Escape") {
-        hidePopup();
+        const popup = document.querySelector(".popup_active");
+        hidePopup(popup);
     };
 }
+
 function displayPopup(popup) {
-    currentPopup = popup;
-    currentPopup.classList.add("popup_active");
-    lockScroll();
+    popup.classList.add("popup_active");
+    document.addEventListener("keydown", handleEscKeyDown);
+    document.body.style.overflowY = "hidden";
+    document.body.style.paddingRight = lockedPadding
 }
-function hidePopup() {
-    currentPopup.classList.remove("popup_active");
-    currentPopup = null;
-    lockScroll();
-}
-
-function handleCloseBtn() {
-    hidePopup();
+function hidePopup(popup) {
+    popup.classList.remove("popup_active");
+    document.removeEventListener("keydown", handleEscKeyDown);
+    document.body.style.paddingRight = "0px";
+    document.body.style.overflowY = bodyOverFlowY;
 }
 
-function handlePopup(event) {
-    if (event.target === event.currentTarget) {
-        hidePopup();
-    }
+function handleCloseBtn(popup) {
+    hidePopup(popup);
 }
 
-function setPopupEventListeners(popup, closeButton) {
-    closeButton.addEventListener("click", handleCloseBtn);
-    popup.addEventListener("click", handlePopup);
+function handlePopup(popup) {
+    hidePopup(popup);
 }
 
-
-const setPopupExpressions = (popups) => {
-    popups.forEach((popup) => {
-        switch (popup.id) {
-            case "profilePopup":
-                profilePopup = popup;
-                profilePopupCloseBtn = popup.querySelector(".btn_to_close");
-                setPopupEventListeners(popup, profilePopupCloseBtn);
-                break;
-            case "placePopup":
-                placePopup = popup;
-                placePopupCloseBtn = popup.querySelector(".btn_to_close");
-                setPopupEventListeners(popup, placePopupCloseBtn);
-                break;
-            case "imagePopup":
-                imagePopup = popup;
-                imagePopupCloseBtn = popup.querySelector(".btn_to_close");
-                setPopupEventListeners(popup, imagePopupCloseBtn);
-                break;
-        }
+function setPopupEventListeners(popupElement, closeButton) {
+    closeButton.addEventListener("click", () => {
+        handleCloseBtn(popupElement);
     });
-}
-setPopupExpressions(popups);
-
-
-
-const getTemplate = () => {
-    const element = document
-        .querySelector('#elementTemplate')
-        .content
-        .querySelector('.element')
-        .cloneNode(true);
-    return element;
+    popupElement.addEventListener("click", (event) => {
+        if (event.target === event.currentTarget) {
+            handlePopup(popupElement);
+        }
+    })
 }
 
-function handleImagePopup() {
-    const image = imagePopup.querySelector(".popup-image__image");
-    image.src = this.src;
-    image.alt = this.alt;
-    const title = imagePopup.querySelector(".popup-image__title");
-    title.textContent = this.alt;
-    displayPopup(imagePopup);
-}
+setPopupEventListeners(profilePopup, profilePopupCloseBtn);
+setPopupEventListeners(placePopup, placePopupCloseBtn);
+
 const createCard = (data) => {
-    const template = getTemplate();
     const card = new Card(data, template);
     const element = card.generateCard();
-    const elementImage = card.GetImage();
-    elementImage.addEventListener("mousedown", handleImagePopup);
     return element;
 }
 initialCards.forEach((initialCard) => {

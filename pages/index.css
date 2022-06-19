@@ -53,6 +53,6 @@
 @import url(../blocks/fieldset/__input/fieldset__input.css);
 @import url(../blocks/fieldset/__input/_fail/fieldset__input_fail.css);
 @import url(../blocks/fieldset/__input-error/fieldset__input-error.css);
-@import url(../blocks/fieldset/__input-error/_single-string/fieldset__input-error_single-string.css);
+@import url(../blocks/fieldset/__input-error/_field-second/fieldset__input-error_field-second.css);
 @import url(../blocks/fieldset/__input/_field/fieldset__input_field_first.css);
 @import url(../blocks/fieldset/__input/_field/fieldset__input_field_second.css);

@@ -1,81 +1,90 @@
-let cxtFormValidator;
+
 export class FromValidator {
     #configData;
     #formElement;
-    #inputsArray;
-    #inputElement;
+    #fields;
+    #filedsKeys;
     #button;
+    #buttonLabel;
     constructor(configData, formElement) {
         this.#configData = configData;
         this.#formElement = formElement;
+        this.#fields = this.#getFields();
+        this.#filedsKeys = Object.keys(this.#fields);
     }
+
     enableValidation() {
         this.#setEventListeners();
     }
-    #handleInput() {
-        this.#checkInputValidity();
+
+    #getFields() {
+        const fields = {}
+        const fieldsArray = Array.from(this.#formElement.querySelectorAll(this.#configData.field));
+        fieldsArray.forEach((field) => {
+            const fieldsElement = {};
+            fieldsElement.input = field.querySelector(this.#configData.input);
+            fieldsElement.errorMessage = field.querySelector(this.#configData.errorMessage);
+            fieldsElement.errorMessage.textContent = "";
+            fields[`${fieldsElement.input.id}`] = fieldsElement;
+        })
+        return fields;
+    }
+
+    #handleInput(key) {
+        this.#checkInputValidity(key);
         this.#toggleButtonState();
     }
     #setEventListeners() {
-        this.#inputsArray = Array.from(this.#formElement.querySelectorAll(this.#configData.input));
         this.#button = this.#formElement.querySelector(this.#configData.saveButton);
-        this.#inputsArray.forEach((input) => {
-            input.addEventListener('input', () => {
-                this.#inputElement = input;
-                this.#handleInput();
+        this.#buttonLabel = this.#button.querySelector(this.#configData.saveButtonLabel);
+        this.#filedsKeys.forEach((key) => {
+            this.#fields[key].input.addEventListener('input', () => {
+                this.#handleInput(key);
             });
-        });
+        })
     }
     #toggleButtonState() {
-        const inValid = (this.#inputsArray.some(input => {
-            return input.validity.valid === false;
+        const inValid = (this.#filedsKeys.some(key => {
+            return this.#fields[key].input.validity.valid === false;
         }));
         if (inValid) {
             this.#button.classList.add(this.#configData.disabledSaveButton);
-            this.#button.children[0].classList.add(this.#configData.disabledSaveButtonLabel);
+            this.#buttonLabel.classList.add(this.#configData.disabledSaveButtonLabel);
             this.#button.disabled = true;
         }
         else if (this.#button.classList.contains(this.#configData.disabledSaveButton)) {
             this.#button.classList.remove(this.#configData.disabledSaveButton);
-            this.#button.children[0].classList.remove(this.#configData.disabledSaveButtonLabel);
+            this.#buttonLabel.classList.remove(this.#configData.disabledSaveButtonLabel);
             this.#button.disabled = false;
         }
     }
 
-    #checkInputValidity() {
-        if (!this.#inputElement.validity.valid) {
-            this.#showInputError();
+    #checkInputValidity(key) {
+        const fieldElement = this.#fields[key];
+        if (fieldElement.input.validity.valid) {
+            this.#hideInputError(fieldElement);
         } else {
-            this.#hideInputError();
+            this.#showInputError(fieldElement);
         }
     }
 
-    #showInputError() {
-        this.#inputElement.classList.add(this.#configData.error);
-        const errorString = this.#inputElement.nextElementSibling;
-        errorString.textContent = this.#inputElement.validationMessage;
-        const isSingleString = errorString.classList.contains(this.#configData.errorSingleString)
-        const errorStringLength = errorString.textContent.length;
-        if (errorStringLength < 58 && !isSingleString) {
-            errorString.classList.add(this.#configData.errorSingleString);
-        }
-        else if (errorStringLength > 57 && isSingleString) {
-            errorString.classList.remove(this.#configData.errorSingleString);
-        }
+    #showInputError(field) {
+        field.input.classList.add(this.#configData.failedInput);
+        field.errorMessage.textContent = field.input.validationMessage;
     };
 
-    #hideInputError() {
-        if (this.#inputElement.classList.contains(this.#configData.error)) {
-            this.#inputElement.classList.remove(this.#configData.error);
-            this.#inputElement.nextElementSibling.textContent = "";
+    #hideInputError(field) {
+        if (field.input.classList.contains(this.#configData.failedInput)) {
+            field.input.classList.remove(this.#configData.failedInput);
+            field.errorMessage.textContent = "";
         }
     };
 
     resetErrors() {
-        this.#inputsArray.forEach((input) => {
-            this.#inputElement = input;
-            this.#hideInputError();
-        });
+        this.#filedsKeys.forEach((key) => {
+            const fieldElement = this.#fields[key];
+            this.#hideInputError(fieldElement);
+        })
         this.#toggleButtonState();
     }
 }

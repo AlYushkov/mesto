@@ -4,7 +4,8 @@
     padding: 0;
     border: 0;
     left: 0;
-    bottom: -30px;
+    right: 0;
+    top: 86px; 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Inter", "Arial", "sans-serif";
