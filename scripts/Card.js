@@ -1,24 +1,17 @@
 export class Card {
-    #bodyOverFlowY = document.body.style.overflowY;
-    #lockedPadding = window.innerWidth - document.body.offsetWidth + "px";
-    #popup;
+    #handleOpenPopup;
     #placeName;
     #imgLink;
     #cardElement;
     #imgElement;
     #likeButton;
-    #popupImage;
-    #popupTitle;
-    #popupCloseBtn;
-    constructor(data, template) {
+
+    constructor(data, template, handleOpenPopup) {
         this.#placeName = data.name;
         this.#imgLink = data.link;
         this.#cardElement = this.#getTemplate(template);
+        this.#handleOpenPopup = handleOpenPopup;
         this.#likeButton = this.#cardElement.querySelector(".btn_to_check");
-        this.#popup = document.querySelector("#imagePopup");
-        this.#popupImage = this.#popup.querySelector(".popup-image__image");
-        this.#popupTitle = this.#popup.querySelector(".popup-image__title");
-        this.#popupCloseBtn = imagePopup.querySelector(".btn_to_close");
     }
     #getTemplate(templateSelector) {
         const element = templateSelector
@@ -26,25 +19,6 @@ export class Card {
             .querySelector('.element')
             .cloneNode(true);
         return element
-    }
-    #handleEscKeyDown(event) {
-        if (event.key === "Escape") {
-            this.#hidePopup();
-        };
-    }
-    #displayPopup() {
-        document.addEventListener("keydown", (event) => { this.#handleEscKeyDown(event) }, { once: true });
-        document.body.style.overflowY = "hidden";
-        document.body.style.paddingRight = this.#lockedPadding
-        this.#popupImage.src = this.#imgLink;
-        this.#popupImage.alt = this.#placeName;
-        this.#popupTitle.textContent = this.#placeName;
-        this.#popup.classList.add("popup_active");
-    }
-    #hidePopup() {
-        this.#popup.classList.remove("popup_active");
-        document.body.style.paddingRight = "0px";
-        document.body.style.overflowY = this.#bodyOverFlowY;
     }
 
     #handleDelete() {
@@ -56,16 +30,6 @@ export class Card {
         this.#likeButton.classList.toggle("btn_to_check-active");
     }
 
-    #handlClose() {
-        this.#hidePopup();
-    }
-
-    #handlePopup(event) {
-        if (event.target === event.currentTarget) {
-            this.#hidePopup();
-        }
-    }
-
     #setEventListeners() {
         this.#cardElement.querySelector(".btn_to_delete").addEventListener("click", () => {
             this.#handleDelete();
@@ -73,15 +37,9 @@ export class Card {
         this.#likeButton.addEventListener("click", () => {
             this.#handleLike();
         });
-        this.#imgElement.addEventListener("mousedown", () => {
-            this.#displayPopup();
+        this.#cardElement.querySelector('.element__image').addEventListener('click', () => {
+            this.#handleOpenPopup(this.#placeName, this.#imgLink)
         });
-        this.#popupCloseBtn.addEventListener("click", () => {
-            this.#handlClose();
-        });
-        this.#popup.addEventListener("click", (event) => {
-            this.#handlePopup(event)
-        })
     }
 
     generateCard() {

@@ -7,16 +7,19 @@ const lockedPadding = window.innerWidth - document.body.offsetWidth + "px";
 
 const elements = document.querySelector(".elements");
 const template = document.querySelector('#elementTemplate');
+const popups = Array.from(document.querySelectorAll('.popup'));
 
 const profileName = document.querySelector(".profile__name");
 const profileTitle = document.querySelector(".profile__title");
 const profileEditBtn = document.querySelector(".btn_to_edit");
 const profilePopup = document.querySelector("#profilePopup");
-const profilePopupCloseBtn = profilePopup.querySelector(".btn_to_close");
 
 const placeAddBtn = document.querySelector(".btn_to_add");
 const placePopup = document.querySelector("#placePopup");
-const placePopupCloseBtn = placePopup.querySelector(".btn_to_close");
+
+const imagePopup = document.querySelector("#imagePopup");
+const imagePopupImage = imagePopup.querySelector(".popup-image__image");
+const imagePopupTitle = imagePopup.querySelector(".popup-image__title");
 
 const config = {
     form: '.form',
@@ -61,30 +64,23 @@ function hidePopup(popup) {
     document.body.style.overflowY = bodyOverFlowY;
 }
 
-function handleCloseBtn(popup) {
-    hidePopup(popup);
-}
-
-function handlePopup(popup) {
-    hidePopup(popup);
-}
-
-function setPopupEventListeners(popupElement, closeButton) {
-    closeButton.addEventListener("click", () => {
-        handleCloseBtn(popupElement);
+popups.forEach(popup => {
+    popup.addEventListener('mousedown', (evt) => {
+        if (evt.target === evt.currentTarget || evt.target.classList.contains('btn_to_close')) {
+            hidePopup(popup);
+        };
     });
-    popupElement.addEventListener("click", (event) => {
-        if (event.target === event.currentTarget) {
-            handlePopup(popupElement);
-        }
-    })
-}
+});
 
-setPopupEventListeners(profilePopup, profilePopupCloseBtn);
-setPopupEventListeners(placePopup, placePopupCloseBtn);
+function handleOpenPopup(name, link) {
+    imagePopupImage.src = link;
+    imagePopupImage.alt = name;
+    imagePopupTitle.textContent = name;
+    displayPopup(imagePopup);
+}
 
 const createCard = (data) => {
-    const card = new Card(data, template);
+    const card = new Card(data, template, handleOpenPopup);
     const element = card.generateCard();
     return element;
 }
