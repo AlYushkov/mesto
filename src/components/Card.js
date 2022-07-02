@@ -6,9 +6,9 @@ export class Card {
     #imgElement;
     #likeButton;
 
-    constructor(data, template, handleOpenPopup) {
-        this.#placeName = data.name;
-        this.#imgLink = data.link;
+    constructor({ name, link }, template, handleOpenPopup) {
+        this.#placeName = name;
+        this.#imgLink = link;
         this.#cardElement = this.#getTemplate(template);
         this.#handleOpenPopup = handleOpenPopup;
         this.#likeButton = this.#cardElement.querySelector(".btn_to_check");

@@ -1,4 +1,4 @@
-.popup-container__title {
+.popup-form__title {
     margin: 0;
     padding: 34px 0px 0px 0px;
     -webkit-font-smoothing: antialiased;
@@ -13,7 +13,7 @@
 }
 
 @media screen and (max-width: 480px) {
-    .popup-container__title {
+    .popup-form__title {
         padding: 25px 0px 0px 0px;
         font-size: 18px;
         font-weight: 900;

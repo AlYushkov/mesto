@@ -1,4 +1,4 @@
-.popup-container {
+.popup-form {
     position: relative;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -15,12 +15,12 @@
     align-content: center; 
 }
 @media screen and (max-width: 680px) {
-    .popup-container {
+    .popup-form {
         padding: 0px 22px;
     }
 }
 @media screen and (max-width:480px) {
-    .popup-container {
+    .popup-form {
         max-width: 282px;
     }
 }

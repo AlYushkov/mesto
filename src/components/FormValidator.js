@@ -3,14 +3,14 @@ export class FromValidator {
     #configData;
     #formElement;
     #fields;
-    #filedsKeys;
+    #fieldKeys;
     #button;
     #buttonLabel;
     constructor(configData, formElement) {
         this.#configData = configData;
         this.#formElement = formElement;
         this.#fields = this.#getFields();
-        this.#filedsKeys = Object.keys(this.#fields);
+        this.#fieldKeys = Object.keys(this.#fields);
     }
 
     enableValidation() {
@@ -37,14 +37,14 @@ export class FromValidator {
     #setEventListeners() {
         this.#button = this.#formElement.querySelector(this.#configData.saveButton);
         this.#buttonLabel = this.#button.querySelector(this.#configData.saveButtonLabel);
-        this.#filedsKeys.forEach((key) => {
+        this.#fieldKeys.forEach((key) => {
             this.#fields[key].input.addEventListener('input', () => {
                 this.#handleInput(key);
             });
         })
     }
     #toggleButtonState() {
-        const inValid = (this.#filedsKeys.some(key => {
+        const inValid = (this.#fieldKeys.some(key => {
             return this.#fields[key].input.validity.valid === false;
         }));
         if (inValid) {
@@ -81,7 +81,7 @@ export class FromValidator {
     };
 
     resetErrors() {
-        this.#filedsKeys.forEach((key) => {
+        this.#fieldKeys.forEach((key) => {
             const fieldElement = this.#fields[key];
             this.#hideInputError(fieldElement);
         })

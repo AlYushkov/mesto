@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mesto</title>
-    <link href="./pages/index.css" rel="stylesheet" />
 </head>
 
 <body class="body">
@@ -96,10 +95,10 @@
             <p class="footer__text">&copy; 2020 Mesto Russia</p>
         </footer>
         <div id="profilePopup" class="popup">
-            <div class="popup-container">
+            <div class="popup-form">
                 <button type="button" class="btn btn_to_close">
                 </button>
-                <h2 class="popup-container__title">Редактировать профиль</h2>
+                <h2 class="popup-form__title">Редактировать профиль</h2>
                 <form class="form" name="profile" novalidate>
                     <fieldset class="fieldset">
                         <input id="nameInput" name="nameInput" type="text"
@@ -119,10 +118,10 @@
             </div>
         </div>
         <div id="placePopup" class="popup">
-            <div class="popup-container">
+            <div class="popup-form">
                 <button type="button" class="btn btn_to_close">
                 </button>
-                <h2 class="popup-container__title">Новое место</h2>
+                <h2 class="popup-form__title">Новое место</h2>
                 <form class="form" name="place">
                     <fieldset class="fieldset">
                         <input id="placeInput" type="text" class="fieldset__input fieldset__input_field_first"
@@ -162,7 +161,6 @@
             </figcaption>
         </figure>
     </template>
-    <script type="module" src="./scripts/index.js"></script>
 </body>
 
 </html>
