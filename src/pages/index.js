@@ -10,21 +10,21 @@ import {
     profileTitleInput, placeNameInput, placeImgLinkInput, config
 } from '../utils/constants.js';
 import { PopupWithForm } from '../components/PopupWtithForm.js';
-
+function createCard(item) {
+    const card = new Card(item, template, handleOpenPopup);
+    const element = card.generateCard();
+    return element;
+}
 const elements = new Section(
     {
         data: initialCards,
         renderer: (item) => {
-            const card = new Card(item, template, handleOpenPopup);
-            const element = card.generateCard();
-            return element;
+            return createCard(item);
         },
     },
     ".elements"
 )
 elements.renderItems();
-
-let activePopup;
 
 const profileValidator = new FromValidator(config, forms.profile);
 profileValidator.enableValidation();
@@ -37,50 +37,46 @@ profileData.name = ".profile__name";
 profileData.title = ".profile__title";
 const userInfo = new UserInfo(profileData);
 
-const saveProfileEventHandler = (event) => {
-    event.preventDefault();
-    const data = { name: profileNameInput.value, title: profileTitleInput.value };
-    userInfo.setUserInfo(data);
-    activePopup.close();
-    activePopup = null;
+const saveProfileEventHandler = ({ }) => {
+    userInfo.setUserInfo({ name: nameInput.value, title: titleInput.value });
+    profilePopup.close();
 }
+
+const profilePopup = new PopupWithForm("#profilePopup", saveProfileEventHandler);
+profilePopup.setEventListeners();
 
 profileEditBtn.addEventListener("click", function () {
     profileValidator.resetErrors();
     const { name, title } = userInfo.getUserInfo();
     profileNameInput.value = name;
-    profileNameInput.focus();
     profileTitleInput.value = title;
-    activePopup = new PopupWithForm("#profilePopup", saveProfileEventHandler);
-    activePopup.setEventListeners();
-    activePopup.open();
+    profilePopup.open();
 });
 
-const savePlaceEventHandler = (event) => {
-    event.preventDefault();
-    const element = { name: placeNameInput.value, link: placeImgLinkInput.value };
+const savePlaceEventHandler = ({ }) => {
+    const element = createCard({ name: placeInput.value, link: linkInput.value });
     elements.addItem(element);
-    activePopup.close();
-    activePopup = null;
+    placePopup.close();
 }
+const placePopup = new PopupWithForm("#placePopup", savePlaceEventHandler);
+placePopup.setEventListeners();
 
 placeAddBtn.addEventListener("click", function () {
-    placeNameInput.value = "";
-    placeNameInput.focus();
-    placeImgLinkInput.value = "";
+    const data = { name: placeInput.value, link: linkInput.value }
+    placeNameInput.value = data.name;
+    placeImgLinkInput.value = data.link;
     placeValidator.resetErrors();
-    activePopup = new PopupWithForm("#placePopup", savePlaceEventHandler);
-    activePopup.setEventListeners();
-    activePopup.open();
+    placePopup.open();
 });
+
+const imagePopup = new PopupWithImage("#imagePopup");
+imagePopup.setEventListeners();
 
 function handleOpenPopup(name, link) {
     const data = {};
     data.link = link;
     data.name = name;
-    const popup = new PopupWithImage("#imagePopup", data);
-    popup.setEventListeners();
-    popup.open();
+    imagePopup.open(data);
 }
 
 

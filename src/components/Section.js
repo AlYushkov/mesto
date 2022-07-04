@@ -9,12 +9,11 @@ export class Section {
     }
     renderItems() {
         this.#intialArray.forEach(item => {
-            this.addItem(item);
+            const element = this.#renderer(item);
+            this.addItem(element);
         });
     }
-
-    addItem(item) {
-        const element = this.#renderer(item);
+    addItem(element) {
         this.#container.prepend(element);
     }
 }
