@@ -19,7 +19,7 @@ const elements = new Section(
     {
         data: initialCards,
         renderer: (item) => {
-            return createCard(item);
+            elements.addItem(createCard(item));
         },
     },
     ".elements"
@@ -37,8 +37,8 @@ profileData.name = ".profile__name";
 profileData.title = ".profile__title";
 const userInfo = new UserInfo(profileData);
 
-const saveProfileEventHandler = ({ }) => {
-    userInfo.setUserInfo({ name: nameInput.value, title: titleInput.value });
+const saveProfileEventHandler = (userData) => {
+    userInfo.setUserInfo(userData);
     profilePopup.close();
 }
 
@@ -47,14 +47,15 @@ profilePopup.setEventListeners();
 
 profileEditBtn.addEventListener("click", function () {
     profileValidator.resetErrors();
-    const { name, title } = userInfo.getUserInfo();
+    const [name, title] = userInfo.getUserInfo();
     profileNameInput.value = name;
     profileTitleInput.value = title;
     profilePopup.open();
 });
 
-const savePlaceEventHandler = ({ }) => {
-    const element = createCard({ name: placeInput.value, link: linkInput.value });
+const savePlaceEventHandler = (elementData) => {
+    const [name, link] = elementData;
+    const element = createCard({ name, link });
     elements.addItem(element);
     placePopup.close();
 }
@@ -62,9 +63,6 @@ const placePopup = new PopupWithForm("#placePopup", savePlaceEventHandler);
 placePopup.setEventListeners();
 
 placeAddBtn.addEventListener("click", function () {
-    const data = { name: placeInput.value, link: linkInput.value }
-    placeNameInput.value = data.name;
-    placeImgLinkInput.value = data.link;
     placeValidator.resetErrors();
     placePopup.open();
 });
@@ -78,7 +76,3 @@ function handleOpenPopup(name, link) {
     data.name = name;
     imagePopup.open(data);
 }
-
-
-
-

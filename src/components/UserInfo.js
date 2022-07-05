@@ -7,10 +7,10 @@ export class UserInfo {
     }
 
     getUserInfo() {
-        return { name: this.#name.textContent, title: this.#title.textContent };
+        return [this.#name.textContent, this.#title.textContent];
     }
 
-    setUserInfo({ name, title }) {
+    setUserInfo([name, title]) {
         this.#name.textContent = name;
         this.#title.textContent = title;
     }

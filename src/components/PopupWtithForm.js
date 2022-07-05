@@ -3,7 +3,6 @@ export class PopupWithForm extends Popup {
     #handleSubmit;
     #popup;
     #form;
-    #inputs = {};
     #inputsArray;
     constructor(popupSelector, handleSubmit) {
         super(popupSelector);
@@ -14,10 +13,11 @@ export class PopupWithForm extends Popup {
     }
 
     #getInputValues() {
+        const inputs = [];
         this.#inputsArray.forEach((input) => {
-            this.#inputs[`${input.id}`] = input.value;
+            inputs.push(input.value);
         });
-        return this.#inputs;
+        return inputs;
     }
 
     close() {

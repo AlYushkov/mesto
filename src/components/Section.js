@@ -7,10 +7,10 @@ export class Section {
         this.#renderer = renderer;
         this.#container = document.querySelector(containerSelector);
     }
+
     renderItems() {
         this.#intialArray.forEach(item => {
-            const element = this.#renderer(item);
-            this.addItem(element);
+            this.#renderer(item);
         });
     }
     addItem(element) {
