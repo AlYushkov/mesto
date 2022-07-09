@@ -10,6 +10,19 @@ import {
     profileTitleInput, placeNameInput, placeImgLinkInput, config
 } from '../utils/constants.js';
 import { PopupWithForm } from '../components/PopupWtithForm.js';
+
+function fetchProfile() {
+    fetch('https://nomoreparties.co/v1/cohort-45/users/me', {
+        headers: {
+            authorization: 'NiTfAvDUYMwUtGVEVSGGdEWvdHdNjkR5'
+        }
+    })
+        .then(res => res.json())
+        .then((result) => {
+            console.log(result);
+        });
+}
+fetchProfile();
 function createCard(item) {
     const card = new Card(item, template, handleOpenPopup);
     const element = card.generateCard();
