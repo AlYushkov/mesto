@@ -1,7 +1,5 @@
 .btn_to_check {
-    position: relative;
-    top:-4px;
-    right: 5px;
+    margin: 0;
     width:22px;
     height: 19px;
     align-self: flex-end;

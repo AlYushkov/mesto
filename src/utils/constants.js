@@ -2,11 +2,6 @@
 
 const template = document.querySelector('#elementTemplate');
 
-
-const profileEditBtn = document.querySelector(".btn_to_edit");
-
-const placeAddBtn = document.querySelector(".btn_to_add");
-
 const config = {
     form: '.form',
     field: '.fieldset',
@@ -21,12 +16,23 @@ const config = {
 
 const forms = document.forms;
 
+const profileAvatarBtn = document.querySelector(".btn_to_edit-avatar");
+const profileEditBtn = document.querySelector(".btn_to_edit");
 const profileNameInput = forms.profile.querySelector("#nameInput");
 const profileTitleInput = forms.profile.querySelector("#titleInput");
+const profileAvatar = document.querySelector(".profile__avatar");
+const profileName = document.querySelector(".profile__name");
+const profileTitle = document.querySelector(".profile__title");
+const placeAddBtn = document.querySelector(".btn_to_add");
 const placeNameInput = forms.place.querySelector("#placeInput");
 const placeImgLinkInput = forms.place.querySelector("#linkInput");
+const saveProfileBtnLbl = forms.profile.querySelector(".btn__label");
+const savePlaceBtnLbl = forms.place.querySelector(".btn__label");
+const saveAvatarBtnLbl = forms.avatar.querySelector(".btn__label");
+const confirmDelete = forms.confirm.querySelector(".btn__label");
 
 export {
-    template, profileEditBtn, placeAddBtn, forms, profileNameInput,
-    profileTitleInput, placeNameInput, placeImgLinkInput, config
+    template, profileAvatarBtn, profileEditBtn, placeAddBtn, forms, profileNameInput,
+    profileTitleInput, profileAvatar, profileName, profileTitle, placeNameInput, placeImgLinkInput,
+    config, saveProfileBtnLbl, savePlaceBtnLbl, saveAvatarBtnLbl, confirmDelete
 };

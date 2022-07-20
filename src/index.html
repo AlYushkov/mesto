@@ -16,79 +16,21 @@
         </header>
         <main class="content">
             <section class="profile">
-                <img class="profile__avatar" src="./images/Cousteau.jpg" alt="Кусто">
+                <button class="btn btn_to_edit-avatar" type="submit">
+                    <img class="profile__avatar"
+                        src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Кусто">
+                </button>
+
                 <div class="profile__profile-info">
-                    <h1 class="profile__name">Жак-Ив Кусто</h1>
+                    <h1 class="profile__name">Имя</h1>
                     <button class="btn btn_to_edit" type="button">
                     </button>
-                    <p class="profile__title">Исследователь океана</p>
+                    <p class="profile__title">О себе</p>
                 </div>
                 <button class="btn btn_to_add" type="button">
                 </button>
             </section>
             <section class="elements" aria-label="блок элементов">
-                <!--               <figure class="element">
-                    <button class="btn btn_to_delete" type="button">
-                    </button>
-                    <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск">
-                    <figcaption class="element__text">
-                        <h2 class="element__title">Карачаевск</h2>
-                        <button class="btn btn_to_check" type="button">
-                        </button>
-                    </figcaption>
-                </figure>
-                <figure class="element">
-                    <button class="btn btn_to_delete" type="button">
-                    </button>
-                    <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус">
-                    <figcaption class="element__text">
-                        <h2 class="element__title">Гора Эльбрус</h2>
-                        <button class="btn btn_to_check" type="button">
-                        </button>
-                    </figcaption>
-                </figure>
-                <figure class="element">
-                    <button class="btn btn_to_delete" type="button">
-                    </button>
-                    <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
-                    <figcaption class="element__text">
-                        <h2 class="element__title">Домбай</h2>
-                        <button class="btn btn_to_check" type="button">
-                        </button>
-                    </figcaption>
-                </figure>
-                <figure class="element">
-                    <button class="btn btn_to_delete" type="button">
-                    </button>
-                    <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус">
-                    <figcaption class="element__text">
-                        <h2 class="element__title">Гора Эльбрус</h2>
-                        <button class="btn btn_to_check" type="button">
-                        </button>
-                    </figcaption>
-                </figure>
-                <figure class="element">
-                    <button class="btn btn_to_delete" type="button">
-                    </button>
-                    <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай">
-                    <figcaption class="element__text">
-                        <h2 class="element__title">Домбай</h2>
-                        <button class="btn btn_to_check" type="button">
-                        </button>
-                    </figcaption>
-                </figure>
-                <figure class="element">
-                    <button class="btn btn_to_delete" type="button">
-                    </button>
-                    <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg"
-                        alt="Карачаево-Черкесия">
-                    <figcaption class="element__text">
-                        <h2 class="element__title">Карачаево-Черкесия</h2>
-                        <button class="btn btn_to_check" type="button">
-                        </button>
-                    </figcaption>
-                </figure>
--->
             </section>
         </main>
         <footer class="footer">
@@ -146,18 +88,48 @@
                 <h2 class="popup-image__title">Место</h2>
             </div>
         </div>
+        <div id="confirmPopup" class="popup  popup_bckg_dark">
+            <div class="popup-form popup-form_confirm">
+                <button type="button" class="btn btn_to_close">
+                </button>
+                <h2 class="popup-form__title">Вы уверены?</h2>
+                <form class="form" name="confirm">
+                    <button class="btn btn_to_save btn_to_confirm" type="submit" name="deletePlace"><span
+                            class="btn__label">Да</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="avatarPopup" class="popup">
+        <div class="popup-form">
+            <button type="button" class="btn btn_to_close">
+            </button>
+            <h2 class="popup-form__title">Обновить аватар</h2>
+            <form class="form" name="avatar">
+                <fieldset class="fieldset">
+                    <input id="linkInputAvatar" type="url" class="fieldset__input fieldset__input_field_second"
+                        placeholder="Ссылка на картинку" required>
+                    <span class="fieldset__input-error fieldset__input-error_field-second"></span>
+                </fieldset>
+                <button class="btn btn_to_save btn_to_save-disabled" type="submit" name="saveAvatar"><span
+                        class="btn__label btn__label_mod_disabled">Сохранить</span></button>
+            </form>
+        </div>
     </div>
     <template id="elementTemplate">
-        <figure class="element">
+        <figure class="element" data-id="id" data-mylike="0" data-likes="0">
             <div class="element__img-wrapper">
                 <button class="btn btn_to_delete" type="button">
                 </button>
                 <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Место">
             </div>
             <figcaption class="element__text">
-                <h2 class="element__title"></h2>
-                <button class="btn btn_to_check" type="button">
-                </button>
+                <h3 class="element__title"></h3>
+                <div class="element__likes">
+                    <button class="btn btn_to_check" type="button">
+                    </button>
+                    <h2 class="element__likes_text">0</h2>
+                </div>
             </figcaption>
         </figure>
     </template>

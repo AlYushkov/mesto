@@ -9,6 +9,7 @@ export class Section {
     }
 
     renderItems() {
+        if (!Array.isArray(this.#intialArray)) return;
         this.#intialArray.forEach(item => {
             this.#renderer(item);
         });
