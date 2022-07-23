@@ -11,11 +11,13 @@ export class FromValidator {
         this.#formElement = formElement;
         this.#fields = this.#getFields();
         this.#fieldKeys = Object.keys(this.#fields);
-    }
+        this.#button = this.#formElement.querySelector(this.#configData.saveButton);
+        this.#buttonLabel = this.#button.querySelector(this.#configData.saveButtonLabel);
+    };
 
     enableValidation() {
         this.#setEventListeners();
-    }
+    };
 
     #getFields() {
         const fields = {}
@@ -28,21 +30,22 @@ export class FromValidator {
             fields[`${fieldsElement.input.id}`] = fieldsElement;
         })
         return fields;
-    }
+    };
 
     #handleInput(key) {
         this.#checkInputValidity(key);
         this.#toggleButtonState();
-    }
+    };
+
     #setEventListeners() {
-        this.#button = this.#formElement.querySelector(this.#configData.saveButton);
-        this.#buttonLabel = this.#button.querySelector(this.#configData.saveButtonLabel);
+
         this.#fieldKeys.forEach((key) => {
             this.#fields[key].input.addEventListener('input', () => {
                 this.#handleInput(key);
             });
         })
-    }
+    };
+
     #toggleButtonState() {
         const inValid = (this.#fieldKeys.some(key => {
             return this.#fields[key].input.validity.valid === false;
@@ -57,7 +60,7 @@ export class FromValidator {
             this.#buttonLabel.classList.remove(this.#configData.disabledSaveButtonLabel);
             this.#button.disabled = false;
         }
-    }
+    };
 
     #checkInputValidity(key) {
         const fieldElement = this.#fields[key];
@@ -66,7 +69,7 @@ export class FromValidator {
         } else {
             this.#showInputError(fieldElement);
         }
-    }
+    };
 
     #showInputError(field) {
         field.input.classList.add(this.#configData.failedInput);
@@ -86,5 +89,5 @@ export class FromValidator {
             this.#hideInputError(fieldElement);
         })
         this.#toggleButtonState();
-    }
+    };
 }

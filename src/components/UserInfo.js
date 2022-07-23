@@ -1,27 +1,28 @@
 export class UserInfo {
     #name;
     #about;
-    constructor({ name, about }) {
+    #avatar;
+
+    constructor({ name, about, avatar }) {
         this.#name = document.querySelector(name);
         this.#about = document.querySelector(about);
-    }
+        this.#avatar = document.querySelector(avatar);
+    };
 
     getUserInfo() {
-        return [
-            this.#about.textContent,
-            this.#name.textContent,
-        ]
-    }
+        return {
+            about: this.#about.textContent,
+            name: this.#name.textContent,
+        }
+    };
 
-    setUserInfo([name, about]) {
+    setUserInfo({ name, about }) {
         this.#about.textContent = about;
         this.#name.textContent = name;
-    }
+    };
 
-    getOwnerData() {
-        return {
-            name: this.#name.textContent,
-            about: this.#about.textContent,
-        }
-    }
+    setAvatar(link) {
+        this.#avatar.src = link;
+        this.#avatar.alt = "Аватар";
+    };
 }

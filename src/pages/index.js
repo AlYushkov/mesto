@@ -12,80 +12,68 @@ import {
 } from '../utils/constants.js';
 import { PopupWithForm } from '../components/PopupWtithForm.js';
 import { Api } from '../components/Api.js';
+
 let userId;
-let placePopup;
-let savePlaceEventHandler;
+let cardSection;
+
 const api = new Api(
     {
         baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-45/',
         token: '31fee790-bdad-4f40-8586-446e1dcdd92a'
     }
-)
+);
+
 /*************************profile********************************************/
-const profilePromise = api.getPromise('users/me', 'GET', 'application/json');
+
+const profileData = {};
+profileData.name = ".profile__name";
+profileData.about = ".profile__title";
+profileData.avatar = ".profile__avatar";
+const userInfo = new UserInfo(profileData);
+
+const profilePromise = api.getPromiseAsync('users/me', 'GET', 'application/json');
 profilePromise
-    .then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })
     .then((data) => {
         if (!data) {
             return Promise.reject('Нет данных профиля');
         }
-        profileName.textContent = data.name;
-        profileTitle.textContent = data.about;
-        profileAvatar.src = data.avatar;
-        profileAvatar.alt = data.name;
+        userInfo.setUserInfo({ name: data.name, about: data.about })
+        userInfo.setAvatar(data.avatar);
         userId = data._id;
     })
     .catch((err) => {
         console.log(`Ошибка. Запрос профиля не выполнен, (${err})`);
     });
+
 const profileValidator = new FromValidator(config, forms.profile);
 profileValidator.enableValidation();
-const profileData = {};
-profileData.name = ".profile__name";
-profileData.about = ".profile__title";
-const userInfo = new UserInfo(profileData);
+
 const saveProfileEventHandler = (userData) => {
     const labelText = saveProfileBtnLbl.textContent;
     saveProfileBtnLbl.textContent = "Сохранение...";
-    userInfo.setUserInfo(userData);
-    const savePromise = api.saveProfile('users/me', 'PATCH', 'application/json', userData,);
+    const savePromise = api.saveProfileAsync('users/me', 'PATCH', 'application/json', userData);
     savePromise
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-            saveProfileBtnLbl.textContent = labelText;
-            profilePopup.close();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
         .then((data) => {
-            debugger;
-            saveProfileBtnLbl.textContent = labelText;
             profilePopup.close();
             if (!data) {
                 return Promise.reject('Данные профиля не сохранены');
             }
-            profileName.textContent = data.name;
-            profileTitle.textContent = data.about;
+            userInfo.setUserInfo({ name: data.name, about: data.about });
         })
         .catch((err) => {
-            saveProfileBtnLbl.textContent = labelText;
-            profilePopup.close();
             console.log(`Ошибка. Запрос не выполнен, (${err})`);
+        })
+        .finally(() => {
+            saveProfileBtnLbl.textContent = labelText;
         });
-}
+};
 
 const profilePopup = new PopupWithForm("#profilePopup", saveProfileEventHandler);
 profilePopup.setEventListeners();
 
 profileEditBtn.addEventListener("click", function () {
     profileValidator.resetErrors();
-    const [about, name] = userInfo.getUserInfo();
+    const { about, name } = userInfo.getUserInfo();
     profileNameInput.value = name;
     profileTitleInput.value = about;
     profilePopup.open();
@@ -95,31 +83,22 @@ const saveAvatarEventHandler = (link) => {
     const [avatarLink] = link;
     const labelText = saveAvatarBtnLbl.textContent;
     saveAvatarBtnLbl.textContent = "Сохранение...";
-    const avatarPromise = api.saveAvatar('users/me/avatar', 'PATCH', 'application/json', avatarLink);
+    const avatarPromise = api.saveAvatarAsync('users/me/avatar', 'PATCH', 'application/json', avatarLink);
     avatarPromise
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-            avatarPopup.close();
-            saveAvatarBtnLbl.textContent = labelText;
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
         .then((data) => {
-            saveAvatarBtnLbl.textContent = labelText;
             avatarPopup.close();
             if (!data) {
                 return Promise.reject('Аватар не сохранен');
             }
-            profileAvatar.src = data.avatar;
-            profileAvatar.alt = "аватар";
+            userInfo.setAvatar(data.avatar);
         })
         .catch((err) => {
-            saveAvatarBtnLbl.textContent = labelText;
-            avatarPopup.close();
             console.log(`Ошибка. Запрос не выполнен, (${err})`);
+        })
+        .finally(() => {
+            saveAvatarBtnLbl.textContent = labelText;
         });
-}
+};
 
 const avatarPopup = new PopupWithForm("#avatarPopup", saveAvatarEventHandler);
 avatarPopup.setEventListeners();
@@ -132,17 +111,10 @@ profileAvatarBtn.addEventListener("click", function () {
 const avatarValidator = new FromValidator(config, forms.avatar);
 avatarValidator.enableValidation();
 
-
 /**************************cards*****************************************/
 
-const cardsPromise = api.getPromise('cards', 'GET', 'application/json');
+const cardsPromise = api.getPromiseAsync('cards', 'GET', 'application/json');
 cardsPromise
-    .then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })
     .then((cardsArray) => {
         if (!cardsArray) {
             return Promise.reject('Нет данных карточки');
@@ -156,70 +128,65 @@ cardsPromise
         for (let i = startIndex; i < range; i++) {
             tempArray.push(cardsArray[i]);
         };
-        const section = createSection(tempArray);
-        placeEventHandlerSet(section);
+        tempArray.reverse();
+        cardSection = createSection(tempArray);
+        placeEventHandlerSet(cardSection);
     })
     .catch((err) => {
         console.log(`Ошибка. Запрос карточек не выполнен, (${err})`);
     });
 
-function createCard(item) {
+function createCard(item, userId, template, handleOpenPopup, handleConfirmPopup, handleLikes) {
     const card = new Card(item, userId, template, handleOpenPopup, handleConfirmPopup, handleLikes);
     const element = card.generateCard();
     return element;
-}
+};
 
 const createSection = (cardsArray) => {
     const section = new Section(
         {
             data: cardsArray,
             renderer: (item) => {
-                section.addItem(createCard(item));
+                section.addItem(createCard(item, userId, template, handleOpenPopup, handleConfirmPopup, handleLikes));
             },
         },
         ".elements"
     )
     section.renderItems();
     return section;
-}
+};
 
 const placeValidator = new FromValidator(config, forms.place);
 placeValidator.enableValidation();
 
-function placeEventHandlerSet(cardSection) {
-    savePlaceEventHandler = (elementData) => {
-        const labelText = savePlaceBtnLbl.textContent;
-        savePlaceBtnLbl.textContent = "Сохранение...";
-        const [name, link] = elementData;
-        const savePromise = api.saveCard('cards', 'POST', 'application/json', { _name: name, _link: link });
-        savePromise
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                savePlaceBtnLbl.textContent = labelText;
-                placePopup.close();
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((data) => {
-                savePlaceBtnLbl.textContent = labelText;
-                placePopup.close();
-                if (!data) {
-                    return Promise.reject('Данные карточки не сохранены');
-                }
-                const card = createCard({ name: data.name, link: data.link, owner: data.owner, likes: data.likes, _id: data._id },
-                    userId, template, handleOpenPopup, handleConfirmPopup, handleLikes);
-                cardSection.addItem(card);
-            })
-            .catch((err) => {
-                savePlaceBtnLbl.textContent = labelText;
-                console.log(`Ошибка при сохранении карточки, (${err})`);
-                placePopup.close();
-            });
-    }
-    placePopup = new PopupWithForm("#placePopup", savePlaceEventHandler);
-    placePopup.setEventListeners();
+const submitPlaceFormEventHandler = (elementData) => {
+    const labelText = savePlaceBtnLbl.textContent;
+    savePlaceBtnLbl.textContent = "Сохранение...";
+    const [name, link] = elementData;
+    const savePromise = api.saveCardAsync('cards', 'POST', 'application/json', { _name: name, _link: link });
+    savePromise
+        .then((data) => {
+            placePopup.close();
+            if (!data) {
+                return Promise.reject('Данные карточки не сохранены');
+            }
+            const card = createCard({ name: data.name, link: data.link, owner: data.owner, likes: data.likes, _id: data._id },
+                userId, template, handleOpenPopup, handleConfirmPopup, handleLikes);
+            cardSection.addItem(card);
+            cardSection.refreshSection();
+        })
+        .catch((err) => {
+            console.log(`Ошибка при сохранении карточки, (${err})`);
+        })
+        .finally(() => {
+            savePlaceBtnLbl.textContent = labelText;
+        });
+};
 
+const placePopup = new PopupWithForm("#placePopup", submitPlaceFormEventHandler);
+
+function placeEventHandlerSet() {
+    placePopup.setEventListeners();
 }
 
 placeAddBtn.addEventListener("click", function () {
@@ -227,63 +194,52 @@ placeAddBtn.addEventListener("click", function () {
     placePopup.open();
 });
 
-const confirmPopup = new PopupWithConfirm("#confirmPopup", handleConfirmPopup, handleDelete);
+const confirmPopup = new PopupWithConfirm("#confirmPopup", handleDelete);
 confirmPopup.setEventListeners();
+
 function handleConfirmPopup(cardElement) {
     confirmPopup.open(cardElement);
-}
-function handleDelete(cardElement) {
-    const deletePromise = api.ProcessRequest('cards', 'DELETE', cardElement.dataset.id);
+};
+
+function handleDelete({ deleteCard, id }) {
+    const deletePromise = api.processRequestAsync('cards', 'DELETE', id);
     deletePromise
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
-        .then((data) => {
-            cardElement.remove();
-            cardElement = null;
+        .then(() => {
+            deleteCard();
+            confirmPopup.close();
         })
         .catch((err) => {
             console.log(`Ошибка при удалении карточки, (${err})`);
         });
-    confirmPopup.close();
-}
-function handleLikes({ cardElement, likeButton, likesQty }) {
+};
+
+function handleLikes({ id, isMyLike, likeIt }) {
     let method;
-    if (cardElement.dataset.mylike === "0") {
+    if (isMyLike === "0") {
         method = 'PUT';
     }
-    else if (cardElement.dataset.mylike === "1") {
+    else if (isMyLike === "1") {
         method = "DELETE";
     }
-    const cardIdLike = `${cardElement.dataset.id}/likes`;
-    const likePromise = api.ProcessRequest('cards', method, cardIdLike);
+    else return;
+    const cardIdLike = `${id}/likes`;
+    const likePromise = api.processRequestAsync('cards', method, cardIdLike);
     likePromise
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
         .then((data) => {
             if (!data) {
                 console.log(`Лайки не обновлены`);
                 return;
             }
-            likeButton.classList.toggle("btn_to_check-active");
-            likesQty.textContent = data.likes.length;
-            const isMyLike = data.likes.some(like => {
+            const likesQty = data.likes.length;
+            const myLike = data.likes.some(like => {
                 return like._id === userId;
             })
-            cardElement.dataset.mylike = isMyLike ? "1" : "0";
-        }
-        )
+            likeIt(likesQty, myLike);
+        })
         .catch((err) => {
             console.log(`Ошибка изменения лайка, (${err})`);
         });
-}
+};
 
 /*****************image******************************************/
 
@@ -295,4 +251,4 @@ function handleOpenPopup(name, link) {
     data.link = link;
     data.name = name;
     imagePopup.open(data);
-}
+};

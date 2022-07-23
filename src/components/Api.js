@@ -6,18 +6,27 @@ export class Api {
         this.#token = token;
     };
 
-    getPromise(_endPoint, _method, _contentType) {
-        return fetch(`${this.#baseUrl}${_endPoint}`, {
+    #getResponseData(res) {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    };
+
+    async getPromiseAsync(_endPoint, _method, _contentType) {
+        const res = await fetch(`${this.#baseUrl}${_endPoint}`, {
             method: _method,
             headers: {
                 authorization: this.#token,
                 'Content-Type': _contentType
             }
-        })
-    }
+        });
+        return this.#getResponseData(res);
+    };
 
-    saveProfile(_endPoint, _method, _contentType, [_name, _about],) {
-        return fetch(`${this.#baseUrl}${_endPoint}`, {
+
+    async saveProfileAsync(_endPoint, _method, _contentType, [_name, _about]) {
+        const res = await fetch(`${this.#baseUrl}${_endPoint}`, {
             method: _method,
             headers: {
                 authorization: this.#token,
@@ -28,10 +37,11 @@ export class Api {
                 about: _about
             })
         });
+        return this.#getResponseData(res);
     };
 
-    saveAvatar(_endPoint, _method, _contentType, _link) {
-        return fetch(`${this.#baseUrl}${_endPoint}`, {
+    async saveAvatarAsync(_endPoint, _method, _contentType, _link) {
+        const res = await fetch(`${this.#baseUrl}${_endPoint}`, {
             method: _method,
             headers: {
                 authorization: this.#token,
@@ -41,9 +51,11 @@ export class Api {
                 avatar: _link
             })
         });
-    }
-    saveCard(_endPoint, _method, _contentType, { _name, _link }) {
-        return fetch(`${this.#baseUrl}${_endPoint}`, {
+        return this.#getResponseData(res);
+    };
+
+    async saveCardAsync(_endPoint, _method, _contentType, { _name, _link }) {
+        const res = await fetch(`${this.#baseUrl}${_endPoint}`, {
             method: _method,
             headers: {
                 authorization: this.#token,
@@ -54,14 +66,16 @@ export class Api {
                 link: _link
             })
         });
-    }
+        return this.#getResponseData(res);
+    };
 
-    ProcessRequest(_endPoint, _method, _requestData) {
-        return fetch(`${this.#baseUrl}${_endPoint}/${_requestData}`, {
+    async processRequestAsync(_endPoint, _method, _requestData) {
+        const res = await fetch(`${this.#baseUrl}${_endPoint}/${_requestData}`, {
             method: _method,
             headers: {
                 authorization: this.#token
             }
-        })
-    }
+        });
+        return this.#getResponseData(res);
+    };
 }
